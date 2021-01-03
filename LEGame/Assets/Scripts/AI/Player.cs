@@ -5,8 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed;
+    public float up;
 
-    void Update()
+    void CheckMove()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         Vector2 p = transform.position;
@@ -17,6 +18,19 @@ public class Player : MonoBehaviour
         {
             transform.localScale = new Vector3(moveX, 1,1);
         }
-        
+    }
+
+    void CheckJump()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            //TODO：待讨论
+        }
+    }
+
+    void Update()
+    {
+        CheckMove();
+        CheckJump();
     }
 }
