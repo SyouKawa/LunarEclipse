@@ -1,2 +1,12 @@
 # LunarEclipse
-LunarEclipse
+#### 当前可操作
+- 点击Unity的Play按钮后，点击“Start”进入第一关（Start点击时容易检测不到，待修缮）
+- 第一关中可以使用"A"和"D"进行左右移动，跳跃及待沟通
+- 在关卡页面点击"Q"可以退回到主界面（MainTitle）
+#### TODO
+- 人物移动镜头跟随
+- 人物技能和跳跃
+- 场景的碰撞体待添加
+- 人物位移动画
+- GameManager的单例模式完善
+
