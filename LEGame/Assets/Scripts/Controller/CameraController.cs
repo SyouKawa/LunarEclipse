@@ -74,7 +74,7 @@ namespace KMGame
 
         public Transform Target;
 
-        public CorgiController TargetController;
+        public KMController TargetController;
 
         protected Bounds _levelBounds;
 
@@ -110,7 +110,7 @@ namespace KMGame
             _currentZoom = MinimumZoom;
 
             // we make sure we have a Player
-            if ((LevelManager.Instance.Players == null) || (LevelManager.Instance.Players.Count == 0))
+            if ((LevelManager.Instance.Player == null))
             {
                 Debug.LogWarning("CameraController : The LevelManager couldn't find a Player character. Make sure there's one set in the Level Manager. The camera script won't work without that.");
                 return;
@@ -151,14 +151,14 @@ namespace KMGame
             }
 
             // we make sure it has a CorgiController associated to it
-            Target = LevelManager.Instance.Players[0].transform;
+            Target = LevelManager.Instance.Player.transform;
             if (Target.GetComponent<CorgiController>() == null)
             {
                 Debug.LogWarning("CameraController : The Player character doesn't have a CorgiController associated to it, the Camera won't work.");
                 return;
             }
 
-            TargetController = Target.GetComponent<CorgiController>();
+            TargetController = Target.GetComponent<KMController>();
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace KMGame
                 return;
             }
 
-            float characterSpeed = Mathf.Abs(TargetController.Speed.x);
+            float characterSpeed = Mathf.Abs(TargetController._rigidbody.velocity.x);
             float currentVelocity = 0f;
 
             _currentZoom = Mathf.SmoothDamp(_currentZoom, (characterSpeed / 10) * (MaximumZoom - MinimumZoom) + MinimumZoom, ref currentVelocity, ZoomSpeed);

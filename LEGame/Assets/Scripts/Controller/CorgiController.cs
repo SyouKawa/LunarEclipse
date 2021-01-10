@@ -47,8 +47,7 @@ namespace KMGame
         public DetachmentMethods DetachmentMethod = DetachmentMethods.Layer;
 
         [Header("Safe Mode")]
-        [Information("If you set SafeSetTransform to true, abilities that modify directly the character's position, like CharacterGrip, will perform a check to make sure there's enough room to do so." +
-          "This isn't enabled by default because this comes at a (small) performance cost and can usually be avoided by having a safe level design.", InformationType.Info, false)]
+        [Information("If you set SafeSetTransform to true, abilities that modify directly the character's position, like CharacterGrip, will perform a check to make sure there's enough room to do so. This isn't enabled by default because this comes at a (small) performance cost and can usually be avoided by having a safe level design.", InformationType.Info, false)]
         public bool SafeSetTransform = false;
 
         /// gives you the object the character is standing on
@@ -68,9 +67,9 @@ namespace KMGame
         [Information("Here you can define how many rays are cast horizontally and vertically. You'll want them as far as possible from each other, " +
               "but close enough that no obstacle or enemy can fit between 2 rays.", InformationType.Info, false)]
         /// the number of rays cast horizontally
-        public int NumberOfHorizontalRays = 8;
+        public int NumberOfHorizontalRays = 4;
         /// the number of rays cast vertically
-        public int NumberOfVerticalRays = 8;
+        public int NumberOfVerticalRays = 4;
         /// a small value added to all raycasts to accomodate for edge cases	
         public float RayOffset = 0.05f;
         /// by default, the length of the raycasts used to get back to normal size will be auto generated based on your character's normal/standing height, but here you can specify a different value
@@ -97,6 +96,7 @@ namespace KMGame
               "It's safer to leave this safety on and use a CharacterGravity ability instead.", InformationType.Info, false)]
         public bool AutomaticGravitySettings = true;
 
+        #region 动态计算各种边界等
         public Vector3 ColliderSize
         {
             get
@@ -279,6 +279,8 @@ namespace KMGame
             }
         }
 
+        #endregion
+
         // parameters override storage
         protected CorgiControllerParameters _overrideParameters;
         // private local references			
@@ -357,11 +359,6 @@ namespace KMGame
         /// </summary>
         protected virtual void Awake()
         {
-            Initialization();
-        }
-
-        protected virtual void Initialization()
-        {
             // we get the various components
             _transform = transform;
             _boxCollider = (BoxCollider2D)GetComponent<BoxCollider2D>();
@@ -392,77 +389,6 @@ namespace KMGame
             CurrentWallCollider = null;
             State.Reset();
             SetRaysParameters();
-
-            // 似乎是重力是否允许在斜坡的时候生效
-            // if (AutomaticGravitySettings)
-            // {
-            //     CharacterGravity characterGravity = this.gameObject.MMGetComponentNoAlloc<CharacterGravity>();
-            //     if (characterGravity == null)
-            //     {
-            //         this.transform.rotation = Quaternion.identity;
-            //     }
-            // }
-        }
-
-        /// <summary>
-        /// Use this to add force to the character
-        /// </summary>
-        /// <param name="force">Force to add to the character.</param>
-        public virtual void AddForce(Vector2 force)
-        {
-            _speed += force;
-            _externalForce += force;
-        }
-
-        /// <summary>
-        ///  use this to set the horizontal force applied to the character
-        /// </summary>
-        /// <param name="x">The x value of the velocity.</param>
-        public virtual void AddHorizontalForce(float x)
-        {
-            _speed.x += x;
-            _externalForce.x += x;
-        }
-
-        /// <summary>
-        ///  use this to set the vertical force applied to the character
-        /// </summary>
-        /// <param name="y">The y value of the velocity.</param>
-        public virtual void AddVerticalForce(float y)
-        {
-            _speed.y += y;
-            _externalForce.y += y;
-        }
-
-        /// <summary>
-        /// Use this to set the force applied to the character
-        /// </summary>
-        /// <param name="force">Force to apply to the character.</param>
-        public virtual void SetForce(Vector2 force)
-        {
-            _speed = force;
-            _externalForce = force;
-        }
-
-        /// <summary>
-        ///  use this to set the horizontal force applied to the character
-        /// </summary>
-        /// <param name="x">The x value of the velocity.</param>
-        public virtual void SetHorizontalForce(float x)
-        {
-            _speed.x = x;
-            _externalForce.x = x;
-        }
-
-        /// <summary>
-        ///  use this to set the vertical force applied to the character
-        /// </summary>
-        /// <param name="y">The y value of the velocity.</param>
-        public virtual void SetVerticalForce(float y)
-        {
-            _speed.y = y;
-            _externalForce.y = y;
-
         }
 
         /// <summary>
@@ -470,17 +396,25 @@ namespace KMGame
         /// </summary>
         protected virtual void Update()
         {
-            EveryFrame();
-        }
+            // 计算重力 eg 30
+            _currentGravity = Parameters.Gravity;
+            _currentGravity = -10;
+            if (_gravityActive)
+            {
+                _speed.y += (_currentGravity + _movingPlatformCurrentGravity) * Time.deltaTime;
+            }
 
-        /// <summary>
-        /// Every frame, we apply the gravity to our character, then check using raycasts if an object's been hit, and modify its new position 
-        /// accordingly. When all the checks have been done, we apply that new position. 
-        /// </summary>
-        protected virtual void EveryFrame()
-        {
-            ApplyGravity();
-            FrameInitialization();
+            _contactList.Clear();
+            // 初始化		
+            _newPosition = Speed * Time.deltaTime;
+            State.WasGroundedLastFrame = State.IsCollidingBelow;
+            StandingOnLastFrame = StandingOn;
+            State.WasTouchingTheCeilingLastFrame = State.IsCollidingAbove;
+            CurrentWallCollider = null;
+            State.Reset();
+
+            // 默认飞行,飞行模式
+            _speed = InputManager.Instance.PrimaryMovement * 10f;
 
             // we initialize our rays
             SetRaysParameters();
@@ -488,8 +422,19 @@ namespace KMGame
             // we store our current speed for use in moving platforms mostly
             ForcesApplied = _speed;
 
-            // we cast rays on all sides to check for slopes and collisions
-            DetermineMovementDirection();
+            // 设置当前的运动方向
+            _movementDirection = _storedMovementDirection;
+            if ((_speed.x < -_movementDirectionThreshold) || (_externalForce.x < -_movementDirectionThreshold))
+            {
+                _movementDirection = -1;
+            }
+            else if ((_speed.x > _movementDirectionThreshold) || (_externalForce.x > _movementDirectionThreshold))
+            {
+                _movementDirection = 1;
+            }
+            _storedMovementDirection = _movementDirection;
+
+
             if (CastRaysOnBothSides)
             {
                 CastRaysToTheLeft();
@@ -509,70 +454,7 @@ namespace KMGame
             CastRaysBelow();
             CastRaysAbove();
 
-            MoveTransform();
-
-            SetRaysParameters();
-            ComputeNewSpeed();
-            SetStates();
-            ComputeDistanceToTheGround();
-
-            _externalForce.x = 0;
-            _externalForce.y = 0;
-
-            FrameExit();
-        }
-
-        protected virtual void FrameInitialization()
-        {
-            _contactList.Clear();
-            // we initialize our newposition, which we'll use in all the next computations			
-            _newPosition = Speed * Time.deltaTime;
-            State.WasGroundedLastFrame = State.IsCollidingBelow;
-            StandingOnLastFrame = StandingOn;
-            State.WasTouchingTheCeilingLastFrame = State.IsCollidingAbove;
-            CurrentWallCollider = null;
-            State.Reset();
-        }
-
-        /// <summary>
-        /// Called at the very last moment
-        /// </summary>
-        protected virtual void FrameExit()
-        {
-            // on frame exit we put our standing on last frame object back to where it belongs
-            if (StandingOnLastFrame != null)
-            {
-                StandingOnLastFrame.layer = _savedBelowLayer;
-            }
-        }
-
-        protected virtual void DetermineMovementDirection()
-        {
-            _movementDirection = _storedMovementDirection;
-            if ((_speed.x < -_movementDirectionThreshold) || (_externalForce.x < -_movementDirectionThreshold))
-            {
-                _movementDirection = -1;
-            }
-            else if ((_speed.x > _movementDirectionThreshold) || (_externalForce.x > _movementDirectionThreshold))
-            {
-                _movementDirection = 1;
-            }
-            // 与运动的平台之间的交互
-            // if (_movingPlatform != null)
-            // {
-            //     if (Mathf.Abs(_movingPlatform.CurrentSpeed.x) > Mathf.Abs(_speed.x))
-            //     {
-            //         _movementDirection = Mathf.Sign(_movingPlatform.CurrentSpeed.x);
-            //     }
-            // }
-            _storedMovementDirection = _movementDirection;
-        }
-
-        /// <summary>
-        /// Moves the transform to its new position, after having performed an optional safety boxcast
-        /// </summary>
-        protected virtual void MoveTransform()
-        {
+            // 如果移动会导致碰撞体重叠,那么会停下里
             if (PerformSafetyBoxcast)
             {
                 _stickRaycast = MMDebug.BoxCast(_boundsCenter, Bounds, Vector2.Angle(transform.up, Vector2.up), _newPosition.normalized, _newPosition.magnitude, PlatformMask, Color.red, true);
@@ -585,34 +467,25 @@ namespace KMGame
                     }
                 }
             }
-
             // we move our transform to its next position
             _transform.Translate(_newPosition, Space.Self);
+
+            SetRaysParameters();
+            ComputeNewSpeed();
+            SetStates();
+            ComputeDistanceToTheGround();
+
+            _externalForce.x = 0;
+            _externalForce.y = 0;
+
+            // on frame exit we put our standing on last frame object back to where it belongs
+            if (StandingOnLastFrame != null)
+            {
+                StandingOnLastFrame.layer = _savedBelowLayer;
+            }
+
         }
 
-        protected virtual void ApplyGravity()
-        {
-            _currentGravity = Parameters.Gravity;
-            if (_speed.y > 0)
-            {
-                _currentGravity = _currentGravity / Parameters.AscentMultiplier;
-            }
-            if (_speed.y < 0)
-            {
-                _currentGravity = _currentGravity * Parameters.FallMultiplier;
-            }
-
-
-            if (_gravityActive)
-            {
-                _speed.y += (_currentGravity + _movingPlatformCurrentGravity) * Time.deltaTime;
-            }
-
-            if (_fallSlowFactor != 0)
-            {
-                _speed.y *= _fallSlowFactor;
-            }
-        }
 
         /// <summary>
         /// A public API to cast rays to any of the 4 cardinal directions using the built-in setup.
@@ -1094,7 +967,7 @@ namespace KMGame
                     _speed = new Vector2(_speed.x, 0f);
                 }
 
-                SetVerticalForce(0);
+                _speed = new Vector2(_speed.x, 0f);
             }
         }
 
