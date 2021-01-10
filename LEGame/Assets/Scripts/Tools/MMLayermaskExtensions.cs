@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace MoreMountains.Tools
+namespace KMGame
 {
     /// <summary>
     /// Layermask Extensions

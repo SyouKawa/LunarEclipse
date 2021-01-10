@@ -71,9 +71,9 @@ namespace MoreMountains.Tools
             public ButtonPressedMethodDelegate ButtonPressedMethod;
             public ButtonUpMethodDelegate ButtonUpMethod;
 
-            public IMButton(string playerID, string buttonID, ButtonDownMethodDelegate btnDown = null, ButtonPressedMethodDelegate btnPressed = null, ButtonUpMethodDelegate btnUp = null)
+            public IMButton(string buttonID, ButtonDownMethodDelegate btnDown = null, ButtonPressedMethodDelegate btnPressed = null, ButtonUpMethodDelegate btnUp = null)
             {
-                ButtonID = playerID + "_" + buttonID;
+                ButtonID = buttonID;
                 ButtonDownMethod = btnDown;
                 ButtonUpMethod = btnUp;
                 ButtonPressedMethod = btnPressed;

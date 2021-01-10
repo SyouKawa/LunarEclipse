@@ -1,45 +1,16 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System;
 using MoreMountains.Tools;
 
-namespace Corgi
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+
+namespace KMGame
 {
-
-
-#if UNITY_EDITOR
-    using UnityEditor;
-#endif
-
-    public enum InformationType { Error, Info, None, Warning }
-
-    public class InformationAttribute : PropertyAttribute
-    {
-
-
-#if UNITY_EDITOR
-        public string Message;
-        public MessageType Type;
-        public bool MessageAfterProperty;
-
-        public InformationAttribute(string message, InformationType type, bool messageAfterProperty)
-        {
-            this.Message = message;
-            if (type == InformationType.Error) { this.Type = UnityEditor.MessageType.Error; }
-            if (type == InformationType.Info) { this.Type = UnityEditor.MessageType.Info; }
-            if (type == InformationType.Warning) { this.Type = UnityEditor.MessageType.Warning; }
-            if (type == InformationType.None) { this.Type = UnityEditor.MessageType.None; }
-            this.MessageAfterProperty = messageAfterProperty;
-        }
-#else
-		public InformationAttribute(string message, InformationType type, bool messageAfterProperty)
-		{
-
-		}
-#endif
-    }
-
     /// <summary>
     /// The various states you can use to check if your character is doing something at the current frame
     /// </summary>
