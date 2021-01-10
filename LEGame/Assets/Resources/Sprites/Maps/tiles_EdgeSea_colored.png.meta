@@ -1,0 +1,588 @@
+fileFormatVersion: 2
+guid: 55e5fc4b629bb4ef38640e9d3432fe1a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3463453774546920451
+    second: tiles_EdgeSea_colored_0
+  - first:
+      213: 9120234178534585706
+    second: tiles_EdgeSea_colored_1
+  - first:
+      213: 1525163174074692275
+    second: tiles_EdgeSea_colored_2
+  - first:
+      213: -7725923261549014340
+    second: tiles_EdgeSea_colored_3
+  - first:
+      213: -9092948139752401546
+    second: tiles_EdgeSea_colored_4
+  - first:
+      213: 4838983839333390068
+    second: tiles_EdgeSea_colored_5
+  - first:
+      213: -3244499256135419044
+    second: tiles_EdgeSea_colored_6
+  - first:
+      213: -4923344402124337533
+    second: tiles_EdgeSea_colored_7
+  - first:
+      213: 1891032794852865660
+    second: tiles_EdgeSea_colored_8
+  - first:
+      213: 8066175666188066078
+    second: tiles_EdgeSea_colored_9
+  - first:
+      213: -4496309071638456476
+    second: tiles_EdgeSea_colored_10
+  - first:
+      213: 735892697688812885
+    second: tiles_EdgeSea_colored_11
+  - first:
+      213: -5854695631680549167
+    second: tiles_EdgeSea_colored_12
+  - first:
+      213: -8055240087107146940
+    second: tiles_EdgeSea_colored_13
+  - first:
+      213: 2490034870714755938
+    second: tiles_EdgeSea_colored_14
+  - first:
+      213: -1149949850434842563
+    second: tiles_EdgeSea_colored_15
+  - first:
+      213: 984780621180464959
+    second: tiles_EdgeSea_colored_16
+  - first:
+      213: 3149876175268366220
+    second: tiles_EdgeSea_colored_17
+  - first:
+      213: 4957405029902909549
+    second: tiles_EdgeSea_colored_18
+  - first:
+      213: -3357999035809823131
+    second: tiles_EdgeSea_colored_19
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 1687
+        width: 346
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfb152864275fefc0800000000000000
+      internalID: -3463453774546920451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_1
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 1686
+        width: 346
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a653eef0aa4919e70800000000000000
+      internalID: 9120234178534585706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_2
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 1687
+        width: 347
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b2ba3f73d77a2510800000000000000
+      internalID: 1525163174074692275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_3
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 1688
+        width: 346
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb291713ab108c490800000000000000
+      internalID: -7725923261549014340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_4
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 1688
+        width: 347
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6755209e7db5fc180800000000000000
+      internalID: -9092948139752401546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_5
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 1307
+        width: 346
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f69251f926872340800000000000000
+      internalID: 4838983839333390068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_6
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 1307
+        width: 347
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5b770cdd1939f2d0800000000000000
+      internalID: -3244499256135419044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_7
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 1307
+        width: 347
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38e887ce954ccabb0800000000000000
+      internalID: -4923344402124337533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_8
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 1308
+        width: 347
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c76b1dbce4c4e3a10800000000000000
+      internalID: 1891032794852865660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_9
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 1307
+        width: 346
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1d1a0f2800d0ff60800000000000000
+      internalID: 8066175666188066078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_10
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 927
+        width: 347
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4679f98c8b6e991c0800000000000000
+      internalID: -4496309071638456476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_11
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 927
+        width: 347
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55dab86728a663a00800000000000000
+      internalID: 735892697688812885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_12
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 928
+        width: 347
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1de46ada751ffbea0800000000000000
+      internalID: -5854695631680549167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_13
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 927
+        width: 347
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44bed7bb1d9063090800000000000000
+      internalID: -8055240087107146940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_14
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 927
+        width: 347
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26be94ba5816e8220800000000000000
+      internalID: 2490034870714755938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_15
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 548
+        width: 348
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d30515724be8a00f0800000000000000
+      internalID: -1149949850434842563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_16
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 548
+        width: 347
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3f6623e1c4aaad00800000000000000
+      internalID: 984780621180464959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_17
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 547
+        width: 347
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c87465151bb96bb20800000000000000
+      internalID: 3149876175268366220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_18
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 548
+        width: 347
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d600917fb9d3cc440800000000000000
+      internalID: 4957405029902909549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_EdgeSea_colored_19
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 548
+        width: 346
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 566837a1badf561d0800000000000000
+      internalID: -3357999035809823131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

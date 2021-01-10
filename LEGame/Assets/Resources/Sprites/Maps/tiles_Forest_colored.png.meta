@@ -1,0 +1,588 @@
+fileFormatVersion: 2
+guid: 7ddf391cb5d4248bea46e3d3b8cccbe9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8747398656311077691
+    second: tiles_Forest_colored_0
+  - first:
+      213: -940685683644660177
+    second: tiles_Forest_colored_1
+  - first:
+      213: 7872729140989663236
+    second: tiles_Forest_colored_2
+  - first:
+      213: 502163585714373097
+    second: tiles_Forest_colored_3
+  - first:
+      213: 1572931090745184338
+    second: tiles_Forest_colored_4
+  - first:
+      213: 7182737462184542140
+    second: tiles_Forest_colored_5
+  - first:
+      213: 1576835421774413758
+    second: tiles_Forest_colored_6
+  - first:
+      213: -7997911209038122545
+    second: tiles_Forest_colored_7
+  - first:
+      213: -4072576528719799469
+    second: tiles_Forest_colored_8
+  - first:
+      213: 8768296749801738272
+    second: tiles_Forest_colored_9
+  - first:
+      213: 6084907339829736015
+    second: tiles_Forest_colored_10
+  - first:
+      213: 4926546659025518676
+    second: tiles_Forest_colored_11
+  - first:
+      213: -1346461979732313187
+    second: tiles_Forest_colored_12
+  - first:
+      213: 4504686282882963603
+    second: tiles_Forest_colored_13
+  - first:
+      213: -6322149190151745124
+    second: tiles_Forest_colored_14
+  - first:
+      213: -3022367914449227217
+    second: tiles_Forest_colored_15
+  - first:
+      213: -3893417703197660204
+    second: tiles_Forest_colored_16
+  - first:
+      213: -2138113741786973560
+    second: tiles_Forest_colored_17
+  - first:
+      213: -1924501645351656661
+    second: tiles_Forest_colored_18
+  - first:
+      213: 4688925152475193252
+    second: tiles_Forest_colored_19
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tiles_Forest_colored_0
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 1688
+        width: 351
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3ba6227bb0056970800000000000000
+      internalID: 8747398656311077691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_1
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1687
+        width: 353
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f26801dca5302f2f0800000000000000
+      internalID: -940685683644660177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_2
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 1687
+        width: 348
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4081e85317d814d60800000000000000
+      internalID: 7872729140989663236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_3
+      rect:
+        serializedVersion: 2
+        x: 1153
+        y: 1689
+        width: 357
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e144a1ee1b08f600800000000000000
+      internalID: 502163585714373097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_4
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 1688
+        width: 357
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 250d8084e7c24d510800000000000000
+      internalID: 1572931090745184338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_5
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 1307
+        width: 350
+        height: 180
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbf76648aa53ea360800000000000000
+      internalID: 7182737462184542140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_6
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 1308
+        width: 350
+        height: 186
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebffd10367b02e510800000000000000
+      internalID: 1576835421774413758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_7
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 1307
+        width: 349
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc1fa205126b10190800000000000000
+      internalID: -7997911209038122545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_8
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 1307
+        width: 348
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35b101d793d4b77c0800000000000000
+      internalID: -4072576528719799469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_9
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 1308
+        width: 349
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0201521007f3fa970800000000000000
+      internalID: 8768296749801738272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_10
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 928
+        width: 347
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f42f7b18cfee17450800000000000000
+      internalID: 6084907339829736015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_11
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 928
+        width: 349
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4508a9c951c9e5440800000000000000
+      internalID: 4926546659025518676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_12
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 927
+        width: 348
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9b7c7a96f7605de0800000000000000
+      internalID: -1346461979732313187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_13
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 927
+        width: 349
+        height: 183
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39850d3be4cd38e30800000000000000
+      internalID: 4504686282882963603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_14
+      rect:
+        serializedVersion: 2
+        x: 1530
+        y: 928
+        width: 354
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c915bf7cec63348a0800000000000000
+      internalID: -6322149190151745124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_15
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 548
+        width: 349
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2237be15646e06d0800000000000000
+      internalID: -3022367914449227217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_16
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 548
+        width: 348
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dbafa62a3dc7f9c0800000000000000
+      internalID: -3893417703197660204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_17
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 548
+        width: 349
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88af76b41e4e352e0800000000000000
+      internalID: -2138113741786973560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_18
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 547
+        width: 347
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b23e82333fbca45e0800000000000000
+      internalID: -1924501645351656661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_Forest_colored_19
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 548
+        width: 349
+        height: 180
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4af9dab4598621140800000000000000
+      internalID: 4688925152475193252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
