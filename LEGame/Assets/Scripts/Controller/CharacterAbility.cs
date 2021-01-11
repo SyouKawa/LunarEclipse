@@ -52,7 +52,6 @@ namespace KMGame
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
             BindAnimator();
-
             _abilityInitialized = true;
         }
 

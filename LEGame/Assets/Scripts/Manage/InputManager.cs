@@ -217,9 +217,9 @@ namespace KMGame
             if (!IsMobile && InputDetectionActive)
             {
                 SetMovement();
-                SetSecondaryMovement();
-                SetShootAxis();
-                GetInputButtons();
+                // SetSecondaryMovement();
+                // SetShootAxis();
+                // GetInputButtons();
             }
         }
 
