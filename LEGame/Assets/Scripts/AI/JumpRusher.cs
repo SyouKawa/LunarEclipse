@@ -13,7 +13,7 @@ public class JumpRusher : MonoBehaviour
 {
     public float HP;
     public Status curState;
-    public float angle;
+    public float initXSpeed;
     public bool isGrounded;
     public float jumpInitSpeed;
     public Vector2 gravity = new Vector2(0,-10f);
@@ -23,17 +23,29 @@ public class JumpRusher : MonoBehaviour
     public float rangeofPatrol;
     public float checkline;
     public bool isHit;
-    public bool isLock;
+    public bool isJumping;
     private BoxCollider2D body;
 
 
     void Start()
     {
-        isGrounded = true;
+        //isGrounded = true;
+        isJumping = false;
         body = GetComponent<BoxCollider2D>();
     }
 
-    void DestroySelf(){}
+    void DestroySelf()
+    {
+        Debug.Log("I'm dead already.");
+    }
+
+    IEnumerator BeHit(float damage)
+    {
+        HP = HP - damage;
+        GetComponent<SpriteRenderer>().color = MMColors.Red;
+        yield return new WaitForSeconds(0.5f);
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
 
     void CheckGround()
     {
@@ -45,31 +57,24 @@ public class JumpRusher : MonoBehaviour
         if(hit.collider != null)
         {
             isGrounded = true;
-            if(!isLock)
-            {
-                velocity = Vector2.zero;
-            }
         }
         else
         {
             isGrounded = false;
-            velocity += gravity *Time.deltaTime;
-            Vector2 pos = (Vector2)transform.position + velocity* Time.deltaTime;
-            transform.position = pos;
         }
     }
 
     void Jump()
     {
-        isLock = true;
-        Vector2 dir = Vector2.zero;
+        isJumping = true;
+        transform.position = new Vector2(transform.position.x,transform.position.y+0.7f);
         if(transform.position.x - tempPlayer.transform.position.x > 0)
         {
-            velocity.x = -3;
+            velocity.x = -initXSpeed;
         }
         else
         {
-            velocity.x = 3;
+            velocity.x = initXSpeed;
         }
         //给予上升的初始速度                            
         velocity.y += jumpInitSpeed;
@@ -78,8 +83,31 @@ public class JumpRusher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //循环检测是否在地面上
+        //地面轮询检测
         CheckGround();
+        //与是否在地面上相关的变量处理
+        if(!isGrounded)
+        {
+            Vector2 pos = (Vector2)transform.position + velocity* Time.deltaTime;
+            velocity += gravity *Time.deltaTime;
+            transform.position = pos;
+        }
+        else
+        {
+            isJumping = false;
+            velocity = Vector2.zero;
+        }
+
+        //受击检测
+        if(isHit)
+        {
+            isHit = false;
+            //受击后停止所有状态
+            StopAllCoroutines();
+            //受击动画
+            StartCoroutine(BeHit(35));
+        }
+
         //附近是否存在玩家
         if(tempPlayer == null)
         {
@@ -99,12 +127,15 @@ public class JumpRusher : MonoBehaviour
             }
             //按距离条件判定：是否进入对玩家的攻击状态
             float distance = Vector2.Distance(tempPlayer.transform.position,transform.position);
-            if(!isLock && distance < rangeofPatrol)
+            if(distance < rangeofPatrol)
             {
                 //进玩家入攻击范围，且未在做其他动作，将巡逻状态变为“接近玩家”
                 curState = Status.Approch;
-                //处理
-                Jump();
+                //如果没有在跳且在地面上，则产生一次跳跃
+                if(!isJumping && isGrounded)
+                {
+                    Jump();
+                }
             }
             else
             {
@@ -116,7 +147,7 @@ public class JumpRusher : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position,new Vector3(rangeofPatrol,3,2));
+        Gizmos.DrawWireSphere(transform.position,rangeofPatrol);
         Gizmos.DrawRay(transform.position,checkline*Vector2.up);
     }
 }
