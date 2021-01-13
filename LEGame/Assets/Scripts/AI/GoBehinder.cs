@@ -100,6 +100,14 @@ public class GoBehinder : MonoBehaviour
             }
             //按距离条件判定：是否进入对玩家的攻击状态
             float distance = Vector2.Distance(tempPlayer.transform.position,transform.position);
+            
+            if(curState == Status.Attack && distance > 2)
+            {
+                isLock = false;
+                StopCoroutine(Attack());
+                curState = Status.Approch;
+            }
+
             if(distance < rangeofPatrol)
             {
                 //进玩家入攻击范围，且未在做其他动作，将巡逻状态变为“接近玩家”
