@@ -8,6 +8,8 @@ namespace KMGame
     public class KMController : MonoBehaviour
     {
         public LayerMask PlatformMask = 0;
+
+        #region 方向撞墙检测
         public bool IsCollidingRight = false;
         public bool IsCollidingLeft = false;
         public bool IsCollidingAbove = false;
@@ -18,17 +20,23 @@ namespace KMGame
 
         protected int NumberOfHorizontalRays = 4;
         protected int NumberOfVerticalRays = 4;
-
         protected const float _smallValue = 0.0001f;
         protected const float _obstacleHeightTolerance = 0.05f;
+        #endregion
+
+        // 是否绘制碰撞线
         public bool DrawRaycastsGizmos = true;
+        // 碰撞体边界
         public float top;
         public float bottom;
         public float left;
         public float right;
-
         protected BoxCollider2D _boxCollider;
         public Rigidbody2D _rigidbody;
+        // 速度
+        public Vector2 v = Vector2.zero;
+        // 加速度
+        public Vector2 a = Vector2.zero;
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -37,6 +45,7 @@ namespace KMGame
             bottom = _boxCollider.offset.y - (_boxCollider.size.y / 2f);
             left = _boxCollider.offset.x - (_boxCollider.size.x / 2f);
             right = _boxCollider.offset.x + (_boxCollider.size.x / 2f);
+
         }
         void Update()
         {
@@ -45,12 +54,15 @@ namespace KMGame
             IsCollidingLeft = false;
             IsCollidingAbove = false;
             IsCollidingBelow = false;
-            // TODO: 如果当前有运动速度的话,那么射线检测的长度应该相应变长,来确保可以正确的停在墙壁处.
+            //向左发射线,检测左侧是否撞墙了
             RaycastHit2D[] storageArray = new RaycastHit2D[4];
             for (int i = 0; i < NumberOfHorizontalRays; i++)
             {
                 Vector2 rayOriginPoint = Vector2.Lerp(transform.position + new Vector3(0, bottom, 0), transform.position + new Vector3(0, top, 0), (float)i / (float)(NumberOfHorizontalRays - 1));
-                Debug.DrawRay(rayOriginPoint, -transform.right * (_obstacleHeightTolerance + Mathf.Abs(left)), MMColors.Red);
+                if (DrawRaycastsGizmos)
+                {
+                    Debug.DrawRay(rayOriginPoint, -transform.right * (_obstacleHeightTolerance + Mathf.Abs(left)), MMColors.Red);
+                }
                 storageArray[i] = Physics2D.Raycast(rayOriginPoint, -transform.right, _obstacleHeightTolerance + Mathf.Abs(left), PlatformMask);
                 if (storageArray[i])
                 {
@@ -58,13 +70,23 @@ namespace KMGame
                 }
             }
 
-
         }
+
+        public float force = 4f;
+
+        public float acc = 10f;
+
+        public bool isRight = false;
+        public bool isLeft = false;
+        public bool isUp = false;
+        public bool isDown = false;
+
         void FixedUpdate()
         {
-            _rigidbody.MovePosition(transform.position + MMMaths.Vector2ToVector3(InputManager.Instance.PrimaryMovement * Time.deltaTime * 10f));
-            // _rigidbody.AddForce(MMMaths.Vector2ToVector3(InputManager.Instance.PrimaryMovement * 10f));
-            // transform.position = transform.position + MMMaths.Vector2ToVector3(InputManager.Instance.PrimaryMovement * Time.deltaTime * 10f);
+            v = _rigidbody.velocity;
+
+            _rigidbody.AddForce(InputManager.Instance.PrimaryMovement * acc);
+
         }
     }
 }

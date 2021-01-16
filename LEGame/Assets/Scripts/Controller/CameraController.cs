@@ -112,7 +112,7 @@ namespace KMGame
             // we make sure we have a Player
             if ((LevelManager.Instance.Player == null))
             {
-                Debug.LogWarning("CameraController : The LevelManager couldn't find a Player character. Make sure there's one set in the Level Manager. The camera script won't work without that.");
+                // Debug.LogWarning("CameraController : The LevelManager couldn't find a Player character. Make sure there's one set in the Level Manager. The camera script won't work without that.");
                 return;
             }
 
