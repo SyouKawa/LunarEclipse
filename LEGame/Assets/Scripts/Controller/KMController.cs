@@ -33,10 +33,6 @@ namespace KMGame
         public float right;
         protected BoxCollider2D _boxCollider;
         public Rigidbody2D _rigidbody;
-        // 速度
-        public Vector2 v = Vector2.zero;
-        // 加速度
-        public Vector2 a = Vector2.zero;
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -70,23 +66,14 @@ namespace KMGame
                 }
             }
 
+
         }
 
-        public float force = 4f;
-
-        public float acc = 10f;
-
-        public bool isRight = false;
-        public bool isLeft = false;
-        public bool isUp = false;
-        public bool isDown = false;
+        public float speed = 10f;
 
         void FixedUpdate()
         {
-            v = _rigidbody.velocity;
-
-            _rigidbody.AddForce(InputManager.Instance.PrimaryMovement * acc);
-
+            _rigidbody.MovePosition(MMMaths.Vector3ToVector2(transform.position) + InputManager.Instance.PrimaryMovement * speed * Time.deltaTime);
         }
     }
 }
