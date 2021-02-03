@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2790817746890134835}
   - component: {fileID: 2790817746890134832}
   - component: {fileID: 2790817746890134833}
+  - component: {fileID: 1691874046}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -41,7 +42,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2790817746890134837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cef1487a8c726473cb38e575a9493eb2, type: 3}
   m_Name: 
@@ -145,7 +146,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.009076655, y: -0.19889343}
+  m_Offset: {x: 0.009063721, y: -0.2832495}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -156,5 +157,31 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6561407, y: 2.162213}
+  m_Size: {x: 1.3187256, y: 1.993501}
   m_EdgeRadius: 0
+--- !u!114 &1691874046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790817746890134837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d09bb23b1a4348fb99ad700721b8cc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  InputOffset: {x: 0.2, y: 0}
+  accelerateTime: 0.09
+  jumpSpeed: 9
+  fallMulti: 12
+  lowJumpMulti: 10
+  rig: {fileID: 0}
+  PointOffset: {x: 0, y: -1.36}
+  Size: {x: 0.98, y: 0.2}
+  GroundLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  isJumping: 0
+  isOnGround: 0
