@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Sprites/DefaultColorFlash"
+Shader "Sprites/ColorFlash"
  {
      Properties
      {
@@ -72,7 +72,7 @@ Shader "Sprites/DefaultColorFlash"
              fixed4 frag(v2f IN) : COLOR
              {
                  fixed4 c = tex2D(_MainTex, IN.texcoord) * IN.color;
-                 c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashAmount);
+                 c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashAmount);//使用FlashAmount的时间过渡到FlashColor的颜色
                  c.rgb *= c.a;
              
                  return c;
