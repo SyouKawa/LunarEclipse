@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    #region Physics VARs
+
     [Header("水平参数（走动）")]
     public float moveSpeed;
     public Vector2 InputOffset;
@@ -25,10 +27,17 @@ public class Player : MonoBehaviour
     [Header("判定显示")]
     public bool isJumping;
     public bool isOnGround;
+    
+    #endregion
+
+    public SpriteRenderer sp;
+    public Sprite[] texs;
 
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        
     }
 
     void XFlipBody()
@@ -102,6 +111,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    void SwitchSprite()
+    {
+        if(rig.velocity.y == 0)
+        {
+            sp.sprite = texs[0];
+        }
+        if(rig.velocity.y > 0)
+        {
+            sp.sprite = texs[1];
+        }
+        if(rig.velocity.y < 0)
+        {
+            sp.sprite = texs[2];
+        }
+    }
+
     void FixedUpdate()
     {
         //获取实时检测变量
@@ -110,6 +135,9 @@ public class Player : MonoBehaviour
         //恒运行函数
         RigCheckMove();
         Gravity();
+
+        //显示切换测试
+        SwitchSprite();
         
         //对应状态的部分运动调整
         if(isOnGround)

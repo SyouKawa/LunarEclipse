@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2790817746890134836}
-  - component: {fileID: 2790817746890134834}
   - component: {fileID: 2790817746890134835}
   - component: {fileID: 2790817746890134832}
   - component: {fileID: 2790817746890134833}
@@ -35,32 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2790817746890134834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2790817746890134837}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cef1487a8c726473cb38e575a9493eb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlatformMask:
-    serializedVersion: 2
-    m_Bits: 8
-  IsCollidingRight: 0
-  IsCollidingLeft: 0
-  IsCollidingAbove: 0
-  IsCollidingBelow: 0
-  DrawRaycastsGizmos: 1
-  top: 0
-  bottom: 0
-  left: 0
-  right: 0
-  _rigidbody: {fileID: 0}
-  speed: 10
 --- !u!212 &2790817746890134835
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -101,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300012, guid: 5ed905305cdf36148912b72365b92c8b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b5c99b1243d74b578d667259844a96f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -150,7 +123,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 2.56}
+    oldSize: {x: 0.34, y: 0.53}
     newSize: {x: 2.56, y: 2.56}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -171,12 +144,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d09bb23b1a4348fb99ad700721b8cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 7
   InputOffset: {x: 0.2, y: 0}
   accelerateTime: 0.09
   jumpSpeed: 9
-  fallMulti: 12
-  lowJumpMulti: 10
+  fallMulti: 10
+  lowJumpMulti: 12
   rig: {fileID: 0}
   PointOffset: {x: 0, y: -1.36}
   Size: {x: 0.98, y: 0.2}
@@ -185,3 +158,8 @@ MonoBehaviour:
     m_Bits: 128
   isJumping: 0
   isOnGround: 0
+  sp: {fileID: 0}
+  texs:
+  - {fileID: 21300000, guid: 5b5c99b1243d74b578d667259844a96f, type: 3}
+  - {fileID: 21300000, guid: 1aae0efbe615f4e87ad129e9514c617a, type: 3}
+  - {fileID: 21300000, guid: e73cd738e494345c081f40b114befdd7, type: 3}
