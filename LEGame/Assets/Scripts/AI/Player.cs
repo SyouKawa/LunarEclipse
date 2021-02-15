@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    #region Player Info
+    [Header("Player人物信息")]
+    public float HP;
+    public float Att;
+    #endregion
     #region Physics VARs
 
     [Header("水平参数（走动）")]
@@ -27,17 +32,28 @@ public class Player : MonoBehaviour
     [Header("判定显示")]
     public bool isJumping;
     public bool isOnGround;
-    
+
+    public bool isAttack;
     #endregion
 
+    //[Space(50)]
+    [Header("显示配置")]
     public SpriteRenderer sp;
     public Sprite[] texs;
+    public int attclk;
+
+    [Header("子对象")]
+    public GameObject fighter;
+    public ContactFilter2D filter;
+    public Collider2D[] result;
 
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        
+        fighter.gameObject.SetActive(false);
+        LayerMask mask = LayerMask.GetMask("Monsters");
+        filter.layerMask = mask;
     }
 
     void XFlipBody()
@@ -113,20 +129,22 @@ public class Player : MonoBehaviour
 
     void SwitchSprite()
     {
-        if(rig.velocity.y == 0)
+        if(!isAttack)
         {
-            sp.sprite = texs[0];
-        }
-        if(rig.velocity.y > 0)
-        {
-            sp.sprite = texs[1];
-        }
-        if(rig.velocity.y < 0)
-        {
-            sp.sprite = texs[2];
+            if(rig.velocity.y == 0)
+            {
+                sp.sprite = texs[0];
+            }
+            if(rig.velocity.y > 0)
+            {
+                sp.sprite = texs[1];
+            }
+            if(rig.velocity.y < 0)
+            {
+                sp.sprite = texs[2];
+            }
         }
     }
-
     void FixedUpdate()
     {
         //获取实时检测变量
@@ -146,6 +164,34 @@ public class Player : MonoBehaviour
             {
                 rig.velocity = new Vector2(rig.velocity.x, jumpSpeed);
             }
+        }
+
+
+        if(attclk > 0)
+        {
+            attclk --;
+        }
+        else
+        {
+            isAttack = false;
+            fighter.gameObject.SetActive(false);
+        }
+
+        if(!isAttack && Input.GetKeyDown(KeyCode.F))
+        {
+            isAttack = true;
+            attclk = 15;
+            sp.sprite = texs[3];
+            fighter.gameObject.SetActive(true);
+            // Collider2D att = fighter.GetComponent<Collider2D>();
+            // int count =  Physics2D.GetContacts(att,result);
+            // print(count);
+            // print(result[0].name);
+            // if(count >0)
+            // {
+            //     Monster enemy = result[0].GetComponentInParent<Monster>();
+            //     enemy.BeHit(Att);
+            // }
         }
     }
     private void OnDrawGizmos()

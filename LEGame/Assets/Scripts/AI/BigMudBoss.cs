@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigMudBoss : MonoBehaviour
+public class BigMudBoss : Monster
 {
     // Start is called before the first frame update
     public enum Status
@@ -15,7 +15,6 @@ public class BigMudBoss : MonoBehaviour
         FakeDeath,
         Die
     }
-    public int HP;
 
     public Vector2 leftLimit;
     public Vector2 rightLimit;
@@ -69,7 +68,7 @@ public class BigMudBoss : MonoBehaviour
         //随机1--冲撞，随机2--下落
     }
 
-    public void Hurt(int damage)
+    public override void BeHit(float damage)
     {
         //伤害
         HP -= damage;
