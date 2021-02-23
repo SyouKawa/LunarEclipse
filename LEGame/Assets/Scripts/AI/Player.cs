@@ -182,15 +182,21 @@ public class Player : MonoBehaviour
             isAttack = true;
             attclk = 15;
             sp.sprite = texs[3];
+
             fighter.gameObject.SetActive(true);
             // Collider2D att = fighter.GetComponent<Collider2D>();
             // int count =  Physics2D.GetContacts(att,result);
             // print(count);
             // print(result[0].name);
+
             // if(count >0)
             // {
             //     Monster enemy = result[0].GetComponentInParent<Monster>();
-            //     enemy.BeHit(Att);
+            //     Vector2 dir =  enemy.transform.position - transform.position;
+            //     dir = dir.normalized;
+            //     //触发敌人被击
+            //     enemy.backDir = dir;
+            //     enemy.OnBeHit(new HitData(this));
             // }
         }
     }

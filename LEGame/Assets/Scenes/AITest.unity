@@ -402,7 +402,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1163707187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de026e225129d4e13a74308156b6b288, type: 3}
+  m_Script: {fileID: 11500000, guid: 3905438ca3c06403ebfc723714849b7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1194429775}
@@ -563,8 +563,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1941762752}
     - target: {fileID: 1447096893946338004, guid: da3decead3afe440c816af7417be806f, type: 3}
+      propertyPath: multi
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447096893946338004, guid: da3decead3afe440c816af7417be806f, type: 3}
       propertyPath: radius
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447096893946338004, guid: da3decead3afe440c816af7417be806f, type: 3}
+      propertyPath: halftime
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1447096893946338004, guid: da3decead3afe440c816af7417be806f, type: 3}
       propertyPath: perAngle

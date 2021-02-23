@@ -27,15 +27,11 @@ public class BigMudBoss : Monster
     public float groundY;
 
     public int timer1;
-    public float hurtSumTime;
-    public float hurtCount;
-    private SpriteRenderer sp;
     void Start()
     {
         //curState = Status.Hide;
         isLock = false;
         timer1 = 0;
-        hurtCount = hurtSumTime;
     }
 
     void FallFirstFist()
@@ -68,35 +64,32 @@ public class BigMudBoss : Monster
         //随机1--冲撞，随机2--下落
     }
 
-    public override void BeHit(float damage)
-    {
-        //伤害
-        HP -= damage;
-        isLock = true;
-        //伤害显示
-        hurtCount = hurtSumTime;
-        sp.material.SetFloat("_FlashAmount",1);
-    }
+    // public override void BeHit(float damage)
+    // {
+    //     //伤害
+    //     HP -= damage;
+    //     isLock = true;
+    //     //伤害显示
+    //     hurtCount = hurtSumTime;
+    //     sp.material.SetFloat("_FlashAmount",1);
+    // }
 
-    void HurtShader()
-    {
-        if(hurtCount <= 0)
-        {
-            sp.material.SetFloat("_FlashAmount", 0);
-            isLock = false;
-        }
-        else
-        {
-            hurtCount -= Time.deltaTime;
-        }
-    }
+    // void HurtShader()
+    // {
+    //     if(hurtCount <= 0)
+    //     {
+    //         sp.material.SetFloat("_FlashAmount", 0);
+    //         isLock = false;
+    //     }
+    //     else
+    //     {
+    //         hurtCount -= Time.deltaTime;
+    //     }
+    // }
 
     void Update()
     {
-        if(isLock)
-        {
-            HurtShader();
-        }
+        
     }
     void FixedUpdate()
     {

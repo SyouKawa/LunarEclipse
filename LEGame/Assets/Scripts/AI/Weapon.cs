@@ -10,7 +10,12 @@ public class Weapon : MonoBehaviour
         Monster enemy = other.GetComponentInParent<Monster>();
         if(enemy !=null)
         {
-            enemy.BeHit(player.GetComponent<Player>().Att);
+            GameObject player = transform.parent.gameObject;
+            Vector2 dir =  enemy.transform.position - player.transform.position;
+            dir = dir.normalized;
+            //触发敌人被击
+            enemy.backDir = dir;
+            enemy.OnBeHit(new HitData(player.GetComponent<Player>()));
         }
 	}
 }
