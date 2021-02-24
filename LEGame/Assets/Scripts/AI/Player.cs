@@ -177,7 +177,7 @@ public class Player : MonoBehaviour
             fighter.gameObject.SetActive(false);
         }
 
-        if(!isAttack && Input.GetKeyDown(KeyCode.F))
+        if(!isAttack && Input.GetKeyDown(KeyCode.X))
         {
             isAttack = true;
             attclk = 15;

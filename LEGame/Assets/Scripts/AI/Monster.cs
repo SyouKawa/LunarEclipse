@@ -25,6 +25,7 @@ public class Monster : MonoBehaviour
 
     public float multi;//击退向量调整参数
     public float halftime;//击退动画中间峰值
+    public Rigidbody2D body;
 
     //受击单次操作委托类型
     public delegate void OnceBeHitHandler(HitData data);
@@ -46,21 +47,35 @@ public class Monster : MonoBehaviour
         //初始化计时器
         hurtCount = 0;
         hurtSumTime = 0.2f;
+        //初始化获取
+        sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        body = transform.GetComponent<Rigidbody2D>();
     }
 
 #region  被击逐帧函数列表（无参）
     public virtual void BeHitBack()
     {
-        //每帧操作，执行击退位移
+        //判断是否是前半段动画，前半段则取击退向量同向，后半段取击退向量反向
+        int brehalf;
         if(hurtCount > halftime)
         {
-            transform.Translate(backDir.x * multi,backDir.y *multi,0);
+            brehalf = 1;
         }
         else
         {
-            transform.Translate(-backDir.x * multi,-backDir.y *multi,0);
+            brehalf = -1;
         }
-        //enemy.BeHit(player.GetComponent<Player>().Att);
+
+        //每帧操作，执行击退位移,峰值时间折返
+        //Kine形式下采用纯位移形式
+        if(body.bodyType == RigidbodyType2D.Kinematic)
+        {
+            transform.Translate(brehalf * backDir.x * multi,brehalf *backDir.y *multi,0);
+        }
+        else //物理模拟形式下采用刚体速度形式
+        {
+            body.velocity = brehalf * backDir;
+        }
     }
 
 #endregion
