@@ -13,28 +13,36 @@ public class HitData
 
 public class Monster : MonoBehaviour
 {
+    [Header("Monster基本数值")]
     public float HP;
     public float Att;
-
+    [Tooltip("Monster的攻击目标")]
+    public GameObject Target;
+    [Header("Monster的显示")]
     public SpriteRenderer sp;
+    [Header("Monster物理性质")]
+    public Rigidbody2D body;
+    public Collider2D colldr;
+
+    [Header("被击退相关参数")]
     public float hurtCount;
-
     public float hurtSumTime;
-
     public Vector2 backDir;
 
     public float multi;//击退向量调整参数
     public float halftime;//击退动画中间峰值
-    public Rigidbody2D body;
 
-    //受击单次操作委托类型
     public delegate void OnceBeHitHandler(HitData data);
     //受击逐帧操作委托类型
     public delegate void DotBeHitHandler();
+    //攻击操作委托
+    public delegate void AttackHandler();
+    
     //受击事件列表
-    //public event BeHitHandler BeHitEvent;
     public OnceBeHitHandler onceBeHitEvent;
     public DotBeHitHandler dotBehitEvent;
+
+    public AttackHandler attackEvent; 
     private void Awake()
     {
         //将被击逐帧函数压入
@@ -43,13 +51,18 @@ public class Monster : MonoBehaviour
         //被击单次函数压入
         onceBeHitEvent = new OnceBeHitHandler(BeHitDamage);
         onceBeHitEvent += InitHitClock;//该函数中Hitdata未使用
-        
+
+        //攻击函数压入(攻击内容全部由不同敌人的override承担)
+        attackEvent = new AttackHandler(Attack);
+
         //初始化计时器
         hurtCount = 0;
         hurtSumTime = 0.2f;
         //初始化获取
+        Target = GameManager.Instance.player;
         sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
         body = transform.GetComponent<Rigidbody2D>();
+        colldr = transform.GetComponent<Collider2D>();
     }
 
 #region  被击逐帧函数列表（无参）
@@ -109,8 +122,25 @@ public class Monster : MonoBehaviour
     
 #endregion
 
+    public virtual void DestroySelf()
+    {
+        Debug.Log("dead already.");
+        Destroy(this.gameObject);
+    }
+
+    public virtual void Attack(){}
+
+    public virtual void CheckDeath()
+    {
+        if(HP <= 0)
+        {
+            DestroySelf();
+        }
+    }
+    
     public void BaseUpdate()
     {
+        CheckDeath();
         //如果处于被击计时中，则循环触发逐帧受击函数
         if(hurtCount >= 0)
         {

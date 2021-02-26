@@ -9,7 +9,6 @@ public class FlyerAround : Monster
     public GameObject Flyer;
 
     public float perAngle;
-
     public float radius;
 
     void Start()
@@ -19,20 +18,9 @@ public class FlyerAround : Monster
         Flyer.transform.position = initPos;
     }
 
-    void DestroySelf()
-    {
-        Debug.Log("I'm dead already.");
-    }
-
     void Update()
     {
         BaseUpdate();
-        if(HP <= 0)
-        {
-            //停止环绕转动
-            perAngle = 0;
-            DestroySelf();
-        }
         Flyer.transform.position = MMMaths.RotatePointAroundPivot(Flyer.transform.position,Pivot.transform.position,perAngle);
     }
 }

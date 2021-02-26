@@ -9,6 +9,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
+    //获取当前玩家的朝向
+    public float GetPlayerDir()
+    {
+        return player.transform.localScale.x;
+    }
+
     private void Awake()
     {
         if (_instance != null)
@@ -21,9 +27,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(player == null)
+        {
+            Debug.LogWarning("警告：当前场景不存在Player.");
+        }
         DontDestroyOnLoad(gameObject);
     }
 

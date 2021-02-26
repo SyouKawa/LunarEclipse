@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2728033570922751444}
   - component: {fileID: 488681060043614443}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6097939261364458485}
   - component: {fileID: 6490527252474292610}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Fight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 1691874046}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -351,3 +351,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c15ae7c13b546435381c3279a1e9f50f, type: 3}
   attclk: 0
   fighter: {fileID: 2201534975904231123}
+  filter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  result: []
