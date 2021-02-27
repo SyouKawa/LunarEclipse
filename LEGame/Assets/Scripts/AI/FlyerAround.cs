@@ -13,9 +13,16 @@ public class FlyerAround : Monster
 
     void Start()
     {
+        body = transform.GetChild(0).GetComponent<Rigidbody2D>();
+        colldr = transform.GetChild(0).GetComponent<Collider2D>();
         Vector3 initPos = Flyer.transform.position;
         initPos.x = -radius;
         Flyer.transform.position = initPos;
+    }
+
+    public override void DestroySelf()
+    {
+        Destroy(this.transform.GetChild(0).gameObject);
     }
 
     void Update()

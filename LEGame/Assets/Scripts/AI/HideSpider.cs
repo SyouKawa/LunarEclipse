@@ -34,6 +34,7 @@ public class HideSpider : Monster
     void Start()
     {
         curState = Status.Patrol;
+        attackEvent +=AttackAnimation;
     }
 
     public override void Attack()
@@ -44,6 +45,7 @@ public class HideSpider : Monster
     void OnTriggerEnter2D(Collider2D other) 
     {
         Debug.Log(other.name);
+        curState = Status.Approch;
     }
 
     //巡逻检测玩家是否处于攻击范围
@@ -104,6 +106,8 @@ public class HideSpider : Monster
         dir = NeedXFlip(atkPos);
         transform.localScale = new Vector3(dir * 1,1,1);
         body.velocity = new Vector2(dir * speed,0);
+        //隐匿贴图
+        sp.color = new Color(1,1,1,0.4f);
     }
     private void OnAttack()
     {
@@ -121,9 +125,15 @@ public class HideSpider : Monster
         attackEvent.Invoke();
     }
 
+    private void AttackAnimation()
+    {
+        sp.color = new Color(1,1,1,1);
+    }
+
     private void OnPatrol()
     {
         body.velocity = Vector2.zero;
+        //TODO:蜘蛛织毛衣的动画
     }
 
     void Update()

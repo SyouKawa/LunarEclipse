@@ -23,14 +23,16 @@ public class Monster : MonoBehaviour
     [Header("Monster物理性质")]
     public Rigidbody2D body;
     public Collider2D colldr;
+    [Header("部分标志位")]
+    public bool canDestroyRootNode;
 
     [Header("被击退相关参数")]
     public float hurtCount;
     public float hurtSumTime;
     public Vector2 backDir;
-
     public float multi;//击退向量调整参数
     public float halftime;//击退动画中间峰值
+
 
     public delegate void OnceBeHitHandler(HitData data);
     //受击逐帧操作委托类型
@@ -55,14 +57,21 @@ public class Monster : MonoBehaviour
         //攻击函数压入(攻击内容全部由不同敌人的override承担)
         attackEvent = new AttackHandler(Attack);
 
+        //初始化标志位
+        canDestroyRootNode = true;
         //初始化计时器
         hurtCount = 0;
         hurtSumTime = 0.2f;
         //初始化获取
-        Target = GameManager.Instance.player;
         sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
         body = transform.GetComponent<Rigidbody2D>();
         colldr = transform.GetComponent<Collider2D>();
+    }
+
+    //依赖外部脚本的Awake初始化，所以必须放到Start中的部分赋值
+    private void Start()
+    {
+        Target = GameManager.Instance.player;
     }
 
 #region  被击逐帧函数列表（无参）
@@ -124,7 +133,6 @@ public class Monster : MonoBehaviour
 
     public virtual void DestroySelf()
     {
-        Debug.Log("dead already.");
         Destroy(this.gameObject);
     }
 
@@ -132,7 +140,7 @@ public class Monster : MonoBehaviour
 
     public virtual void CheckDeath()
     {
-        if(HP <= 0)
+        if(HP <= 0 && canDestroyRootNode)
         {
             DestroySelf();
         }

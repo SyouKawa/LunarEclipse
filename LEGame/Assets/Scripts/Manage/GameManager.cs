@@ -25,10 +25,7 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
-    }
 
-    void Start()
-    {
         player = GameObject.FindGameObjectWithTag("Player");
         if(player == null)
         {
