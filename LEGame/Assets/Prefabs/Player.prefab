@@ -454,11 +454,10 @@ MonoBehaviour:
   GravityEffect: 0
   curVelocity: {x: 0, y: 0}
   jumpInitSpeed: 20
-  jumpDownSpeed: 0
+  jumpDownSpeed: -5
   initYpos: 0
   MaxHeight: 6
   fallMulti: 2
-  lowJumpMulti: 15
   rig: {fileID: 0}
   PointOffset: {x: 0.16, y: -1.36}
   Size: {x: 0.54, y: 0.2}
