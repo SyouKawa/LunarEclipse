@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     [Header("水平参数（走动）")]
     public float moveSpeed;
     public Vector2 InputOffset;
-    public float accelerateTime;
+    [Tooltip("水平速度Smooth过渡时间")]
+    public float XaccelerateTime;
     private float Xvelocity;
 
     [Header("垂直参数（跳跃）")]
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
     [Tooltip("是否受重力加速度影响？不受影响则跳跃的上升下降皆为匀速运动")]
     public bool GravityEffect;
 
-    [Tooltip("当前人物速度")]
+    [Tooltip("当前人物速度（用于测试检查，不作为参数）")]
     public Vector2 curVelocity;
     
     [Tooltip("跳跃的初始速度")]
@@ -31,27 +32,31 @@ public class Player : MonoBehaviour
     [Tooltip("匀速下落速度（不受重力加速度影响，GravityEffect关闭时生效）")]
     public float jumpDownSpeed;
     
+   [Tooltip("跳跃前的原本高度")] 
     public float initYpos;
     
-    [Tooltip("跳跃的最大高度")]
+    [Tooltip("跳跃可提升的最大高度")]
     public float MaxHeight;
     
-    [Tooltip("大跳的重力加速度-调整")]
+    [Tooltip("重力加速度-调整参数")]
     public float fallMulti;
-    
-    [Tooltip("小跳的重力加速度-调整")]
-    //public float lowJumpMulti;
 
     [Header("Unity物理控制")]
     public Rigidbody2D rig;
-    public Vector2 PointOffset;
-    public Vector2 Size;
+    [Header("地面检测")]
+    public Vector2 GroundPointOffset;
+    public Vector2 GroundCheckSize;
+    [Header("天花板检测")]
+    public Vector2 CeilingPointOffset;
+    public Vector2 CeilingCheckSize;
+
     public LayerMask GroundLayerMask;
 
     [Header("判定显示")]
     public bool isJumping;
     public bool isOnGround;
     public bool isAttack;
+    public bool collideCeiling;
     #endregion
 
     //[Space(50)]
@@ -70,8 +75,10 @@ public class Player : MonoBehaviour
     {
         rig = GetComponent<Rigidbody2D>();
         sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        
         weaponX.gameObject.SetActive(false);
         weaponY.gameObject.SetActive(false);
+        
         LayerMask mask = LayerMask.GetMask("Monsters");
         filter.layerMask = mask;
     }
@@ -79,15 +86,12 @@ public class Player : MonoBehaviour
     void XFlipBody()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
-        // Vector2 p = transform.position;
-        // p.x += moveX * moveSpeed * Time.deltaTime;
-        // transform.position = p;
-        //改变朝向
         if (moveX != 0)
         {
             transform.localScale = new Vector3(moveX, 1,1);
         }
     }
+
     void RigCheckMove()
     {
         //左右翻转
@@ -95,22 +99,33 @@ public class Player : MonoBehaviour
         //速度调整
         if(Input.GetAxisRaw("Horizontal") > InputOffset.x)
         {
-            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x,moveSpeed *Time.fixedDeltaTime *60 ,ref Xvelocity,accelerateTime), rig.velocity.y);
+            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x,moveSpeed *Time.fixedDeltaTime *60 ,ref Xvelocity,XaccelerateTime), rig.velocity.y);
         }
         else if(Input.GetAxisRaw("Horizontal") < (InputOffset.x *-1))
         {
-            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x,moveSpeed *Time.fixedDeltaTime *60 *-1 ,ref Xvelocity,accelerateTime), rig.velocity.y);
+            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x,moveSpeed *Time.fixedDeltaTime *60 *-1 ,ref Xvelocity,XaccelerateTime), rig.velocity.y);
         }
         else if(Input.GetAxisRaw("Horizontal") == 0)
         {
-            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x,0 ,ref Xvelocity,accelerateTime), rig.velocity.y);
+            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x,0 ,ref Xvelocity,XaccelerateTime), rig.velocity.y);
         }
     }
 
-    bool CheckGround()
+    private bool CheckGround()
     {
-        Collider2D coll =  Physics2D.OverlapBox((Vector2)transform.position + PointOffset,Size,0,GroundLayerMask);
+        Collider2D coll =  Physics2D.OverlapBox((Vector2)transform.position + GroundPointOffset,GroundCheckSize,0,GroundLayerMask);
         if(coll !=null)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    private bool CheckCeiling()
+    {
+        Collider2D coll = Physics2D.OverlapBox((Vector2)transform.position+CeilingPointOffset,CeilingCheckSize,0,GroundLayerMask);
+        
+        if(coll != null)
         {
             return true;
         }
@@ -122,32 +137,24 @@ public class Player : MonoBehaviour
         //如果不属于以下两种状态，则保持上一帧的isJumping状态
         bool result = isJumping;
         //如果在按跳跃键且当前并非跳跃状态====>切换为跳跃状态
-        if(Input.GetAxis("Jump") == 1 && !isJumping)
+        if(Input.GetKeyDown(KeyCode.C) && !isJumping)
         {
             result = true;
             initYpos = transform.position.y;
-            rig.gravityScale = 0;
         }
         //如果在地面上且当前并没有输入跳跃动作====>切换为着地状态(可跳跃状态)
-        if(Input.GetAxis("Jump") == 0)
+        if(!Input.GetKeyDown(KeyCode.C))
         {
             result = false;
         }
         return result;
     }
-    //调整的下落函数
+
+    //调整的重力加速度函数
     void Gravity()
     {
-        if(rig.velocity.y <= 0)
-        {
-            //在原重力影响下，加入fallMulti作为乘数调整下落的加速度
-            rig.velocity += Vector2.up *Physics2D.gravity.y * fallMulti * Time.fixedDeltaTime;
-        }
-        //取消小跳的设计：跳跃上升阶段，且没有按下跳跃键的小跳
-    //    else if(rig.velocity.y>0 && Input.GetAxis("Jump")!=1)
-    //     {
-    //         rig.velocity +=Vector2.up *Physics2D.gravity.y * lowJumpMulti * Time.fixedDeltaTime;
-    //     }
+        //在原重力影响下，加入fallMulti作为乘数调整下落的加速度
+        rig.velocity += Vector2.up *Physics2D.gravity.y * fallMulti * Time.fixedDeltaTime;
     }
 
     //TODO：临时的动画切换
@@ -159,7 +166,7 @@ public class Player : MonoBehaviour
             {
                 sp.sprite = texs[0];
             }
-            if(rig.velocity.y > 0)
+            if(isJumping && rig.velocity.y > 0)//速度大于0且是跳跃状态才切换
             {
                 sp.sprite = texs[1];
             }
@@ -179,14 +186,43 @@ public class Player : MonoBehaviour
         {
             rig.velocity = new Vector2(rig.velocity.x,jumpInitSpeed);
         }
-        //已达最大高度，变更为下落
+        //已达最大高度，变更为下落（此时无法再进入y速度需要大于0的上个if）
         else if(delta >= MaxHeight)
         {
-            
             rig.velocity = new Vector2(rig.velocity.x,jumpDownSpeed);
         }
     }
-    void FixedUpdate()
+
+    private void Update()
+    {
+        //获取实时检测变量
+        isOnGround = CheckGround();
+        collideCeiling = CheckCeiling();
+        //对应状态的部分运动调整
+        if(isOnGround)//如果在地面上的进一步操作和检测
+        {
+            //在地面才可以跳跃
+            isJumping = CheckJump();
+        }
+        else//如果不在地面上的进一步操作和检测
+        {
+            if(!isJumping)
+            {
+                rig.velocity = new Vector2(rig.velocity.x,jumpDownSpeed);
+            }
+            if(collideCeiling)//如果装上天花板，则直接取消跳跃状态，并开始下落
+            {
+                isJumping = false;
+                rig.velocity = new Vector2(rig.velocity.x,jumpDownSpeed);
+            }
+        }
+        if(isJumping)
+        {
+            Jump();
+        }
+    }
+
+    private void FixedUpdate()
     {
         //Debug显示
         curVelocity = rig.velocity;
@@ -201,20 +237,6 @@ public class Player : MonoBehaviour
 
         //显示切换测试
         SwitchSprite();
-
-        //获取实时检测变量
-        isOnGround = CheckGround();
-        //对应状态的部分运动调整
-        if(isOnGround)
-        {
-            //在地面才可以跳跃
-            isJumping = CheckJump();
-        }
-        if(isJumping)
-        {
-            Jump();
-        }
-
 
         //攻击动画时钟  TODO：攻击动画
         if(attclk > 0)
@@ -262,6 +284,8 @@ public class Player : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube((Vector2)transform.position + PointOffset,Size);
+        Gizmos.DrawWireCube((Vector2)transform.position + GroundPointOffset,GroundCheckSize);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube((Vector2)transform.position + CeilingPointOffset,CeilingCheckSize);
     }
 }

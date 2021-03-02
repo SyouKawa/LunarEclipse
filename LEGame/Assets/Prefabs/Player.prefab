@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 990976631}
   - component: {fileID: 990976632}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,6 +82,89 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1622429075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1622429078}
+  - component: {fileID: 1622429077}
+  - component: {fileID: 1622429076}
+  m_Layer: 6
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1622429078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622429075}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2790817746890134836}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1622429077
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622429075}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.3372549, g: 0.3372549, b: 0.3372549, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 7.4611206
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &1622429076
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622429075}
+  m_Enabled: 1
 --- !u!1 &979016448748148473
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2728033570922751444}
   - component: {fileID: 488681060043614443}
-  m_Layer: 9
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3159040051222126588}
   - component: {fileID: 7067340444178291937}
-  m_Layer: 9
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +341,7 @@ GameObject:
   - component: {fileID: 6490527252474292610}
   - component: {fileID: 1163707191}
   - component: {fileID: 1163707188}
-  m_Layer: 9
+  m_Layer: 6
   m_Name: WeaponX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +445,7 @@ GameObject:
   - component: {fileID: 2790817746890134832}
   - component: {fileID: 2790817746890134833}
   - component: {fileID: 1691874046}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -384,6 +467,7 @@ Transform:
   - {fileID: 6097939261364458485}
   - {fileID: 3139152896531878546}
   - {fileID: 2217436658936748948}
+  - {fileID: 1622429078}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -450,23 +534,26 @@ MonoBehaviour:
   Att: 20
   moveSpeed: 7
   InputOffset: {x: 0.2, y: 0}
-  accelerateTime: 0.09
+  XaccelerateTime: 0
   GravityEffect: 0
   curVelocity: {x: 0, y: 0}
   jumpInitSpeed: 20
-  jumpDownSpeed: -5
+  jumpDownSpeed: -9
   initYpos: 0
   MaxHeight: 6
   fallMulti: 2
   rig: {fileID: 0}
-  PointOffset: {x: 0.16, y: -1.36}
-  Size: {x: 0.54, y: 0.2}
+  GroundPointOffset: {x: 0, y: -1.36}
+  GroundCheckSize: {x: 0.54, y: 0.2}
+  CeilingPointOffset: {x: 0, y: 0.93}
+  CeilingCheckSize: {x: 0.9, y: 0.26}
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 128
   isJumping: 0
   isOnGround: 0
   isAttack: 0
+  collideCeiling: 0
   sp: {fileID: 0}
   texs:
   - {fileID: 21300000, guid: 5b5c99b1243d74b578d667259844a96f, type: 3}
@@ -502,7 +589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 682268878237975869}
   - component: {fileID: 3833953660259811137}
-  m_Layer: 9
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,7 +673,7 @@ GameObject:
   - component: {fileID: 1797967749254978175}
   - component: {fileID: 7084382319000025546}
   - component: {fileID: 4335513185080935389}
-  m_Layer: 9
+  m_Layer: 6
   m_Name: WeaponY02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -690,7 +777,7 @@ GameObject:
   - component: {fileID: 3512437043386843563}
   - component: {fileID: 3843681490896147593}
   - component: {fileID: 4834520868757903501}
-  m_Layer: 9
+  m_Layer: 6
   m_Name: WeaponY01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
