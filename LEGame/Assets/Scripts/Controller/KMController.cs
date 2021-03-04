@@ -54,9 +54,11 @@ namespace KMGame
             RaycastHit2D[] storageArray = new RaycastHit2D[4];
             for (int i = 0; i < NumberOfHorizontalRays; i++)
             {
+                //线性插值计算上下边界中射线的原点
                 Vector2 rayOriginPoint = Vector2.Lerp(transform.position + new Vector3(0, bottom, 0), transform.position + new Vector3(0, top, 0), (float)i / (float)(NumberOfHorizontalRays - 1));
                 if (DrawRaycastsGizmos)
                 {
+                    //原点，方向，颜色
                     Debug.DrawRay(rayOriginPoint, -transform.right * (_obstacleHeightTolerance + Mathf.Abs(left)), MMColors.Red);
                 }
                 storageArray[i] = Physics2D.Raycast(rayOriginPoint, -transform.right, _obstacleHeightTolerance + Mathf.Abs(left), PlatformMask);
