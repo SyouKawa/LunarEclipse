@@ -13308,8 +13308,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1691874046, guid: 6bcffee17b7a64b259c33f4298d02ef9, type: 3}
-      propertyPath: _obstacleHeightTolerance
-      value: 0.11
+      propertyPath: checkDelta
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2790817746890134836, guid: 6bcffee17b7a64b259c33f4298d02ef9, type: 3}
       propertyPath: m_RootOrder
@@ -25228,13 +25228,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066836158}
-  m_LocalRotation: {x: -0, y: -0, z: 0.001337177, w: 0.9999991}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 142, y: 11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 834975400}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.153}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2066836161
 BoxCollider2D:
   m_ObjectHideFlags: 0

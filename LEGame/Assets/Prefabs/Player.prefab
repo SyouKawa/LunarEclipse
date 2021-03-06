@@ -537,8 +537,8 @@ MonoBehaviour:
   XaccelerateTime: 0
   GravityEffect: 0
   curVelocity: {x: 0, y: 0}
-  jumpInitSpeed: 20
-  jumpDownSpeed: -9
+  jumpInitSpeed: 25
+  jumpDownSpeed: -10
   initYpos: 0
   MaxHeight: 6
   fallMulti: 2
@@ -551,7 +551,7 @@ MonoBehaviour:
   NumberOfHorizontalRays: 3
   NumberOfVerticalRays: 3
   _smallValue: 0.0001
-  checkDelta: 0
+  checkDelta: 0.05
   DrawRaycastsGizmos: 1
   top: 0
   bottom: 0

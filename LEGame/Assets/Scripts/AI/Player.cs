@@ -176,9 +176,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        //Debug Tools
-        MMDebug.DebugOnScreen("This is a test label.");
-
+        //物理组件初始化
         rig = GetComponent<Rigidbody2D>();
         sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
@@ -342,7 +340,6 @@ public class Player : MonoBehaviour
     {
         //Debug显示
         curVelocity = rig.velocity;
-
         //恒运行函数
         RigCheckMove();
         //是否打开重力影响
