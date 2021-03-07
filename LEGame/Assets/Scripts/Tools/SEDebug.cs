@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SEDebug : MonoBehaviour
 {
@@ -11,15 +12,22 @@ public class SEDebug : MonoBehaviour
     //Debug信息框的显示边距(默认10,从左上顶角计算)
     public int marginTop = 25;
     public int marginLeft = 25;
-    public int padding = 10;
+    public int padding = 30;
 
     //Debug信息框的宽度和高度
     public int boxWidth = 400;
-    public int boxHeight = 250;
+    public int boxHeight = 350;
+    //Debug Button大小设置
+    public int btnWidth = 150;
+    public int btnHeight = 50;
+    //Debug Label大小设置
+    public int lblWidth = 250;
+    public int lblHeight = 50;
 
     [Header("Debug信息配置")]
     public string msgStake;
     public bool isShowingInfo;
+    public string levelInput;
 
     protected Vector2 velocity;
     protected Player player;
@@ -35,19 +43,22 @@ public class SEDebug : MonoBehaviour
     /// </summary>
     public virtual void OnGUI()
     {
-        //作用字体
-        GUIStyle style = GUI.skin.GetStyle("label");
-        style.fontSize = fontSize;
+        //变更将使用的GUI组件的字体大小
+        GUIStyle[] styles =  new GUIStyle[5];
+        styles[0] = GUI.skin.GetStyle("label");
+        styles[2] = GUI.skin.GetStyle("button");
+        for(int i=0;styles[i]!=null;i++)
+        {
+            styles[i].fontSize = fontSize;
+        }
 
-        //面板背景
-        GUI.Box(new Rect(marginLeft,marginTop,boxWidth + padding,boxHeight + padding *2),"");
+        //左侧面板背景配置
+        GUI.Box(new Rect(marginLeft,marginTop,boxWidth,boxHeight),"信息显示");
         
-        if(GUI.Button(new Rect(marginLeft + padding,marginTop + padding*2,150,25),"刷新场景物体到管理器"))
+        if(GUI.Button(new Rect(marginLeft + padding,marginTop + padding*2,btnWidth,btnHeight),"刷新场景物体到管理器"))
         {
             FreshObjects();
         }
-
-        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*3,boxWidth,boxHeight),"InfoDisplay");
         
         if(player != null)
         {
@@ -57,21 +68,36 @@ public class SEDebug : MonoBehaviour
         {
             Debug.LogWarning("切换场景后，请点击“刷新场景物体到管理器”按钮，防止Player物体为空");
         }
-        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4,boxWidth,boxHeight),"当前速度："+ velocity.ToString());
+        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4,lblWidth,lblHeight),"当前速度："+ velocity.ToString());
+        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4 +lblHeight,lblWidth,lblHeight),"跳跃速度（上升）"+ player.jumpInitSpeed.ToString());
+        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4 +lblHeight*2,lblWidth,lblHeight),"下落速度（下坠）"+ player.jumpDownSpeed.ToString());
+        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4 + lblHeight *3,lblWidth,lblHeight),"最大跳跃高度"+ player.MaxHeight.ToString());
 
-        // 创建背景框
-        GUI.Box(new Rect(Screen.width-200,10,200,100), "加载关卡");
-    
+        // 右侧面板背景配置
+        GUI.Box(new Rect(Screen.width-boxWidth,marginTop,boxWidth,boxHeight), "加载关卡");
+
+        GUI.Label(new Rect(Screen.width-boxWidth+padding,marginTop+padding,lblWidth,lblHeight),"前往关卡：");
+        levelInput = GUI.TextField(new Rect(Screen.width-boxWidth+150,marginTop+padding,btnHeight,btnHeight),levelInput);
+        
         // 创建第一个按钮。如果按下此按钮，则会执行 Application.Loadlevel (1)
-        if(GUI.Button(new Rect(Screen.width-200,10*3,150,25), "Level 1"))
+        if(GUI.Button(new Rect(Screen.width-boxWidth+250,marginTop + padding,btnWidth,btnHeight), "确认"))
         {
-            LoadSceneByNum(1);
-        }
-    
-        // 创建第二个按钮。
-        if(GUI.Button(new Rect(Screen.width-200,10*6,150,25),"Level 2")) 
-        {
-            LoadSceneByNum(2);
+            try
+            {
+                SceneManager.LoadScene(int.Parse(levelInput));
+            }
+            catch(System.NullReferenceException nullE)
+            {
+                Debug.LogWarning("未找到当前level序号，请检查ProjectSetting的关卡配置");
+            }
+            catch(SystemException nulle)
+            {
+                Debug.LogWarning("未找到当前level序号，请检查ProjectSetting的关卡配置");
+            }
+            finally
+            {
+                Debug.LogError("无法加载关卡，请按错误提示解决场景加载问题");
+            }
         }
     }
 

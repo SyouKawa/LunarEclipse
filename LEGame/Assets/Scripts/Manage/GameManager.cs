@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject DebugInfoPanel;
 
-    //获取当前玩家的朝向
+    /// <summary>
+    /// 获取当前玩家的朝向
+    /// </summary>
+    /// <returns>返回 > 0则朝右，返回 < 0则朝左</returns>
     public float GetPlayerDir()
     {
         return player.transform.localScale.x;
