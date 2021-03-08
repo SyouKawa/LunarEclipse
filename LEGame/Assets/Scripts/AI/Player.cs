@@ -156,22 +156,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        //物理组件初始化
-        rig = GetComponent<Rigidbody2D>();
-        sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        coll = GetComponent<BoxCollider2D>();
-        //计算碰撞边界
-        CalculateColliderLimit();
-
-        weaponX.gameObject.SetActive(false);
-        weaponY.gameObject.SetActive(false);
-
-        LayerMask mask = LayerMask.GetMask("Monsters");
-        filter.layerMask = mask;
-    }
-
     void XFlipBody()
     {
         //Player 翻转
@@ -199,24 +183,6 @@ public class Player : MonoBehaviour
         {
             rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x, 0, ref Xvelocity, XaccelerateTime), rig.velocity.y);
         }
-    }
-
-    bool CheckJump()
-    {
-        //如果不属于以下两种状态，则保持上一帧的isJumping状态
-        bool result = isJumping;
-        //如果在按跳跃键且当前并非跳跃状态====>切换为跳跃状态
-        if (!isJumping)
-        {
-            result = true;
-            initYpos = transform.position.y;
-        }
-        //如果在地面上且当前并没有输入跳跃动作====>切换为着地状态(可跳跃状态)
-        if (!Input.GetKeyDown(KeyCode.C))
-        {
-            result = false;
-        }
-        return result;
     }
 
     //调整的重力加速度函数
@@ -261,6 +227,24 @@ public class Player : MonoBehaviour
             isJumping = false;
             rig.velocity = new Vector2(rig.velocity.x, jumpDownSpeed);
         }
+    }
+
+    private void Start()
+    {
+        //物理组件初始化
+        rig = GetComponent<Rigidbody2D>();
+        sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        coll = GetComponent<BoxCollider2D>();
+        //计算碰撞边界
+        CalculateColliderLimit();
+
+        weaponX = transform.GetChild(1).gameObject;
+        weaponX.SetActive(false);
+        weaponY = transform.GetChild(2).gameObject;
+        weaponY.SetActive(false);
+
+        LayerMask mask = LayerMask.GetMask("Monsters");
+        filter.layerMask = mask;
     }
 
     private void Update()
