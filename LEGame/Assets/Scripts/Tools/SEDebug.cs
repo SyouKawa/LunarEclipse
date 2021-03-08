@@ -34,7 +34,6 @@ public class SEDebug : MonoBehaviour
     {
         player = GameManager.Instance.player.GetComponent<Player>();
         skin = Resources.Load<GUISkin>("GUI/InputSkin");
-        GUI.skin = skin;
     }
 
 
