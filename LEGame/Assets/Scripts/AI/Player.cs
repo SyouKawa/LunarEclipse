@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using MoreMountains.Tools;
 
 public class Player : MonoBehaviour
@@ -10,90 +11,71 @@ public class Player : MonoBehaviour
     public float HP;
     public float Att;
     #endregion
-    #region Physics VARs
-
-    [Header("水平参数（走动）")]
-    public float moveSpeed;
-    public Vector2 InputOffset;
-    [Tooltip("水平速度Smooth过渡时间")]
-    public float XaccelerateTime;
-    private float Xvelocity;
-
-    [Header("垂直参数（跳跃）")]
-
-    [Tooltip("是否受重力加速度影响？不受影响则跳跃的上升下降皆为匀速运动")]
+    #region Adjust Vars
+    [Space(20,order =0)]
+    [Header("可调参数",order = 1)]
+    [Tooltip("是否受重力加速度影响？不受影响则跳跃的上升下降皆为匀速运动",order = 2)]
     public bool GravityEffect;
-
-    [Tooltip("当前人物速度（用于测试检查，不作为参数）")]
-    public Vector2 curVelocity;
-
+    [Tooltip("重力加速度-调整参数")]
+    protected float fallMulti;
+    public float moveSpeed;
+    protected Vector2 InputOffset;
+    [Tooltip("水平速度Smooth过渡时间")]
+    protected float XaccelerateTime;
+    protected float Xvelocity;
     [Tooltip("跳跃的初始速度")]
     public float jumpInitSpeed;
-
     [Tooltip("匀速下落速度（不受重力加速度影响，GravityEffect关闭时生效）")]
     public float jumpDownSpeed;
-
-    [Tooltip("跳跃前的原本高度")]
-    public float initYpos;
-
     [Tooltip("跳跃可提升的最大高度")]
     public float MaxHeight;
+    [HideInInspector]
+    public float initYpos{get;private set;}
 
-    [Tooltip("重力加速度-调整参数")]
-    public float fallMulti;
-
-    [Header("Unity物理控制")]
-    public Rigidbody2D rig;
-    public BoxCollider2D coll;
+    //该部分的显示已移至Debug面板
+    [HideInInspector]
+    public Vector2 curVelocity{get;private set;}
+    [HideInInspector]
+    public bool isJumping{get;private set;}
+    [HideInInspector]
+    public bool isAttack{get;private set;}
 
     [Space(30, order = 0)]
     [Header("碰撞检测", order = 1)]
-    [Space(15, order = 2)]
-    [Header("4方向检测标志位", order = 3)]
+    [Header("是否绘制碰撞线",order = 2)]
+    public bool DrawRaycastsGizmos = true;
+    [Header("水平方向的射线检测条数")]
+    public int NumberOfHorizontalRays = 3;
+    [Header("竖直方向的射线检测条数")]
+    public int NumberOfVerticalRays = 3;
+    [Header("射线检测的延伸长度")]
+    [Tooltip("即：从Player的碰撞体延伸出去多长的检测范围")]
+    public float checkDelta = 0.05f;
+    [Header("4方向检测标志位")]
     public bool IsCollidingRight = false;
     public bool IsCollidingLeft = false;
     public bool IsCollidingCeiling = false;
     public bool IsCollidingGround = false;
-
-    public int NumberOfHorizontalRays = 3;
-    public int NumberOfVerticalRays = 3;
-    public float _smallValue = 0.0001f;
-    public float checkDelta;
-
-    // 是否绘制碰撞线
-    public bool DrawRaycastsGizmos = true;
     // 碰撞体边界
-    public float top;
-    public float bottom;
-    public float left;
-    public float right;
-
-    [Header("天花板检测")]
-    public Vector2 GroundPointOffset;
-    public Vector2 GroundCheckSize;
-    public Vector2 CeilingPointOffset;
-    public Vector2 CeilingCheckSize;
-
-    public LayerMask GroundLayerMask;
-
-    [Header("判定显示")]
-    public bool isJumping;
-    public bool isOnGround;
-    public bool isAttack;
-    public bool collideCeiling;
+    protected float top;
+    protected float bottom;
+    protected float left;
+    protected float right;
+    protected LayerMask GroundLayerMask;
     #endregion
 
-    //[Space(50)]
+    protected Rigidbody2D rig;
+    protected BoxCollider2D coll;
     [Header("显示配置")]
     public SpriteRenderer sp;
     public Sprite[] texs;
     public int attclk;
 
-    [Header("子对象")]
-    public GameObject weaponX;
-    public GameObject weaponY;
-    public ContactFilter2D filter;
-    public Collider2D[] result;
+    //子对象
+    protected GameObject weaponX;
+    protected GameObject weaponY;
+    protected ContactFilter2D filter;
+    protected Collider2D[] result;
 
     /// <summary>
     /// 每帧重置碰撞检测标志位
@@ -219,17 +201,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool CheckCeiling()
-    {
-        Collider2D coll = Physics2D.OverlapBox((Vector2)transform.position + CeilingPointOffset, CeilingCheckSize, 0, GroundLayerMask);
-
-        if (coll != null)
-        {
-            return true;
-        }
-        else return false;
-    }
-
     bool CheckJump()
     {
         //如果不属于以下两种状态，则保持上一帧的isJumping状态
@@ -260,7 +231,7 @@ public class Player : MonoBehaviour
     {
         if (!isAttack)
         {
-            if (isOnGround)
+            if (IsCollidingGround)
             {
                 sp.sprite = texs[0];
             }
@@ -296,61 +267,47 @@ public class Player : MonoBehaviour
     {
         //每帧初始化
         InitCollideStatusByFrame();
-        //获取实时碰撞标志位
+        //获取实时碰撞标志位（射线检测(射线原点，方向，长度（边界值+防撞delta值），检测图层)）
         CheckDirCollide(-transform.right,left,ref IsCollidingLeft,Color.red);
         CheckDirCollide(-transform.up,bottom,ref IsCollidingGround,Color.blue);
+
         CheckDirCollide(transform.up,top,ref IsCollidingCeiling,Color.green);
+        
         CheckDirCollide(transform.right,right,ref IsCollidingRight,Color.yellow);
-        //获取实时检测变量
-        isOnGround = IsCollidingGround;
-        collideCeiling = CheckCeiling();
         //对应状态的部分运动调整
 
+#region  Jump Part
         //跳跃检测
         if(Input.GetKeyDown(KeyCode.C))
         {
             //跳跃初始化（记录起跳高度和置位标志）
-            if(isOnGround && !isJumping)
+            if(IsCollidingGround && !isJumping)
             {
                 isJumping = true;
                 initYpos = transform.position.y;
             }
         }
-
-        //跳跃中
+        //跳跃中判定
         if(isJumping)
         {
             Jump();
-            if (collideCeiling)//如果跳跃过程中撞上天花板，则直接取消跳跃状态，并开始下落
+            if (IsCollidingCeiling)//如果跳跃过程中撞上天花板，则直接取消跳跃状态，并开始下落
             {
+                //EditorApplication.isPaused = true;
                 isJumping = false;
                 rig.velocity = new Vector2(rig.velocity.x, jumpDownSpeed);
             }
         }
         else//如果没有跳跃，也不在地上，说明在下坠
         {
-            if(!isOnGround)
+            if(!IsCollidingGround)
             {
                 rig.velocity = new Vector2(rig.velocity.x, jumpDownSpeed);
             }
         }
-    }
+#endregion
 
-    private void FixedUpdate()
-    {
-        //Debug显示
-        curVelocity = rig.velocity;
-        //恒运行函数
-        RigCheckMove();
-        //是否打开重力影响
-        if (GravityEffect)
-        {
-            Gravity();
-        }
-
-        //显示切换测试
-        SwitchSprite();
-
+#region Attack Part
         //攻击动画时钟  TODO：攻击动画
         if (attclk > 0)
         {
@@ -362,7 +319,6 @@ public class Player : MonoBehaviour
             weaponX.gameObject.SetActive(false);
             weaponY.gameObject.SetActive(false);
         }
-
         if (Input.GetKey(KeyCode.DownArrow))
         {
             print("Prepare for DownAtk");
@@ -384,11 +340,29 @@ public class Player : MonoBehaviour
                 weaponX.gameObject.SetActive(true);
             }
         }
+#endregion
+
+    }
+
+    private void FixedUpdate()
+    {
+        //Debug显示
+        curVelocity = rig.velocity;
+        //恒运行函数
+        RigCheckMove();
+        //是否打开重力影响
+        if (GravityEffect)
+        {
+            Gravity();
+        }
+
+        //显示切换测试
+        SwitchSprite();
+
     }
     private void OnDrawGizmos()
     {
         //天花板检测
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube((Vector2)transform.position + CeilingPointOffset, CeilingCheckSize);
     }
 }

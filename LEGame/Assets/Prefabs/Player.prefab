@@ -567,7 +567,6 @@ MonoBehaviour:
   isJumping: 0
   isOnGround: 0
   isAttack: 0
-  collideCeiling: 0
   sp: {fileID: 0}
   texs:
   - {fileID: 21300000, guid: 5b5c99b1243d74b578d667259844a96f, type: 3}
