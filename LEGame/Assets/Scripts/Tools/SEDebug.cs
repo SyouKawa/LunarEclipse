@@ -7,6 +7,7 @@ using System;
 public class SEDebug : MonoBehaviour
 {
     [Header("Debug显示配置")]
+    public GUISkin skin;
     //Debug显示字体的大小
     public int fontSize = 20;
     //Debug信息框的显示边距(默认10,从左上顶角计算)
@@ -16,13 +17,16 @@ public class SEDebug : MonoBehaviour
 
     //Debug信息框的宽度和高度
     public int boxWidth = 400;
-    public int boxHeight = 350;
+    public int boxHeight = 590;
     //Debug Button大小设置
-    public int btnWidth = 150;
+    public int btnWidth = 250;
     public int btnHeight = 50;
     //Debug Label大小设置
-    public int lblWidth = 250;
+    public int lblWidth = 360;
     public int lblHeight = 50;
+    //Debug toggle大小设置
+    public int tglWidth = 250;
+    public int tglHeight = 50;
 
     [Header("Debug信息配置")]
     public string msgStake;
@@ -35,6 +39,8 @@ public class SEDebug : MonoBehaviour
     public void Start()
     {
         player = GameManager.Instance.player.GetComponent<Player>();
+        skin = Resources.Load<GUISkin>("GUI/InputSkin");
+        GUI.skin = skin;
     }
 
 
@@ -43,19 +49,11 @@ public class SEDebug : MonoBehaviour
     /// </summary>
     public virtual void OnGUI()
     {
-        //变更将使用的GUI组件的字体大小
-        GUIStyle[] styles =  new GUIStyle[5];
-        styles[0] = GUI.skin.GetStyle("label");
-        styles[2] = GUI.skin.GetStyle("button");
-        for(int i=0;styles[i]!=null;i++)
-        {
-            styles[i].fontSize = fontSize;
-        }
-
+        GUI.skin = skin;
         //左侧面板背景配置
         GUI.Box(new Rect(marginLeft,marginTop,boxWidth,boxHeight),"信息显示");
-        
-        if(GUI.Button(new Rect(marginLeft + padding,marginTop + padding*2,btnWidth,btnHeight),"刷新场景物体到管理器"))
+        GUI.BeginGroup(new Rect(marginLeft,marginTop,boxWidth,boxHeight));
+        if(GUI.Button(new Rect(padding,padding*2,btnWidth,btnHeight),"刷新场景物体到管理器"))
         {
             FreshObjects();
         }
@@ -68,10 +66,16 @@ public class SEDebug : MonoBehaviour
         {
             Debug.LogWarning("切换场景后，请点击“刷新场景物体到管理器”按钮，防止Player物体为空");
         }
-        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4,lblWidth,lblHeight),"当前速度："+ velocity.ToString());
-        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4 +lblHeight,lblWidth,lblHeight),"跳跃速度（上升）"+ player.jumpInitSpeed.ToString());
-        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4 +lblHeight*2,lblWidth,lblHeight),"下落速度（下坠）"+ player.jumpDownSpeed.ToString());
-        GUI.Label(new Rect(marginLeft + padding,marginTop + padding*4 + lblHeight *3,lblWidth,lblHeight),"最大跳跃高度"+ player.MaxHeight.ToString());
+        GUI.Label(new Rect(padding,padding*4,lblWidth,lblHeight),"当前速度："+ velocity.ToString());
+        GUI.Toggle(new Rect(padding ,padding*4+tglHeight,tglWidth,tglHeight),player.IsCollidingGround,"是否站在地上");
+        GUI.Toggle(new Rect(padding ,padding*4+tglHeight*2,tglWidth,tglHeight),player.isJumping,"是否在跳跃");
+        GUI.Toggle(new Rect(padding ,padding*4+tglHeight*3,tglWidth,tglHeight),player.isAttack,"是否在攻击");
+        GUI.Label(new Rect(padding,padding*4 +tglHeight*3+lblHeight,lblWidth,lblHeight),"跳跃速度（上升）："+ player.jumpInitSpeed.ToString());
+        GUI.Label(new Rect(padding,padding*4 +tglHeight*3+lblHeight*2,lblWidth,lblHeight),"下落速度（下坠）："+ player.jumpDownSpeed.ToString());
+        GUI.Label(new Rect(padding,padding*4 +tglHeight*3+ lblHeight *3,lblWidth,lblHeight),"最大跳跃高度："+ player.MaxHeight.ToString());
+        GUI.Label(new Rect(padding,padding*4 +tglHeight*3+ lblHeight *4,lblWidth,lblHeight),"起跳位置（Y轴）："+ player.initYpos.ToString());
+        GUI.Label(new Rect(padding,padding*4 +tglHeight*3+ lblHeight *5,lblWidth,lblHeight),"跳跃的目标位置（Y轴）："+ player.targetYPostion.ToString());
+        GUI.EndGroup();
 
         // 右侧面板背景配置
         GUI.Box(new Rect(Screen.width-boxWidth,marginTop,boxWidth,boxHeight), "加载关卡");
