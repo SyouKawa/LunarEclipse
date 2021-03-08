@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1194429775}
+  DebugInfoPanel: {fileID: 0}
 --- !u!4 &537415283
 Transform:
   m_ObjectHideFlags: 0
@@ -505,6 +506,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2394707329401809962, guid: 96b8732e3d63d4bf994affeb53dbb9ea, type: 3}
+      propertyPath: HP
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 2394707329401809962, guid: 96b8732e3d63d4bf994affeb53dbb9ea, type: 3}
       propertyPath: multi
       value: 0.2
