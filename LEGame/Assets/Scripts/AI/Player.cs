@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
     public float MaxHeight;
     [HideInInspector]
     public float initYpos{get;private set;}
+    [HideInInspector]
+    public float targetYPostion{get;private set;}
 
     //该部分的显示已移至Debug面板
     [HideInInspector]
@@ -212,16 +214,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Jump()
-    {
-        float delta = (Mathf.Abs(transform.position.y) - Mathf.Abs(initYpos));
+    void Jump(float targetYPostion)
+    {        
         //处于上升状态
-        if (rig.velocity.y >= 0 && delta < MaxHeight)
+        if (rig.velocity.y >= 0 && transform.position.y < targetYPostion)
         {
             rig.velocity = new Vector2(rig.velocity.x, jumpInitSpeed);
         }
         //已达最大高度，变更为下落（此时无法再进入y速度需要大于0的上个if）
-        else if (delta >= MaxHeight)
+        else if (transform.position.y >= targetYPostion)
         {
             //达到最大高端，取消跳跃状态（相当于变为下坠）
             isJumping = false;
@@ -269,12 +270,13 @@ public class Player : MonoBehaviour
             {
                 isJumping = true;
                 initYpos = transform.position.y;
+                targetYPostion = transform.position.y +MaxHeight;
             }
         }
         //跳跃中判定
         if(isJumping)
         {
-            Jump();
+            Jump(targetYPostion);
             if (IsCollidingCeiling)//如果跳跃过程中撞上天花板，则直接取消跳跃状态，并开始下落
             {
                 //EditorApplication.isPaused = true;
