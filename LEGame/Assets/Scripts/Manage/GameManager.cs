@@ -52,11 +52,11 @@ public class GameManager : MonoBehaviour
         DebugInfoPanel.AddComponent<SEDebug>();
     }
 
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.Q) && SceneManager.GetActiveScene().buildIndex!=0)
-        {
-            SceneManager.LoadScene(0);
-        }
-    }
+    // void Update()
+    // {
+    //     // if (Input.GetKey(KeyCode.Q) && SceneManager.GetActiveScene().buildIndex!=0)
+    //     // {
+    //     //     SceneManager.LoadScene(0);
+    //     // }
+    // }
 }
