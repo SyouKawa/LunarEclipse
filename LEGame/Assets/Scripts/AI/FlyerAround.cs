@@ -14,7 +14,7 @@ public class FlyerAround : Monster
     void Start()
     {
         body = transform.GetChild(0).GetComponent<Rigidbody2D>();
-        colldr = transform.GetChild(0).GetComponent<Collider2D>();
+        colldr = transform.GetChild(0).GetComponent<BoxCollider2D>();
         Vector3 initPos = Flyer.transform.position;
         initPos.x = -radius;
         Flyer.transform.position = initPos;

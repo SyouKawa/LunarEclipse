@@ -2,30 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitData
+public class Monster : HasHPObject
 {
-    //击退方向
-    public Vector2 hitBackDir;
-    public Player player;
-
-    public HitData(Player _player){player = _player;}
-}
-
-public class Monster : MonoBehaviour
-{
-    [Header("Monster基本数值")]
-    public float HP;
-    public float Att;
+    [Space(20,order = 0)]
+    [Header("Monster类自定义参数",order = 1)]
+    [Space(5,order = 2)]
+    [Header("Monster的显示",order = 3)]
+    public SpriteRenderer sp;
     [Tooltip("Monster的攻击目标")]
     public GameObject Target;
-    [Header("Monster的显示")]
-    public SpriteRenderer sp;
-    [Header("Monster物理性质")]
-    public Rigidbody2D body;
-    public Collider2D colldr;
     [Header("部分标志位")]
     public bool canDestroyRootNode;
-
     [Header("被击退相关参数")]
     public float hurtCount;
     public float hurtSumTime;
@@ -33,18 +20,6 @@ public class Monster : MonoBehaviour
     public float multi;//击退向量调整参数
     public float halftime;//击退动画中间峰值
 
-
-    public delegate void OnceBeHitHandler(HitData data);
-    //受击逐帧操作委托类型
-    public delegate void DotBeHitHandler();
-    //攻击操作委托
-    public delegate void AttackHandler();
-    
-    //受击事件列表
-    public OnceBeHitHandler onceBeHitEvent;
-    public DotBeHitHandler dotBehitEvent;
-
-    public AttackHandler attackEvent; 
     private void Awake()
     {
         //将被击逐帧函数压入
@@ -52,7 +27,7 @@ public class Monster : MonoBehaviour
         
         //被击单次函数压入
         onceBeHitEvent = new OnceBeHitHandler(BeHitDamage);
-        onceBeHitEvent += InitHitClock;//该函数中Hitdata未使用
+        onceBeHitEvent += InitHitClock;//该函数中OtherData未使用
 
         //攻击函数压入(攻击内容全部由不同敌人的override承担)
         attackEvent = new AttackHandler(Attack);
@@ -65,7 +40,7 @@ public class Monster : MonoBehaviour
         //初始化获取
         sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
         body = transform.GetComponent<Rigidbody2D>();
-        colldr = transform.GetComponent<Collider2D>();
+        colldr = transform.GetComponent<BoxCollider2D>();
     }
 
     //依赖外部脚本的Awake初始化，所以必须放到Start中的部分赋值
@@ -106,7 +81,7 @@ public class Monster : MonoBehaviour
 #region 被击单次函数列表（带参）
     
     //触发函数（在外部调用）
-    public void OnBeHit(HitData data)
+    public void OnBeHit(OtherData data)
     {
         if(data!= null)
         {
@@ -118,12 +93,12 @@ public class Monster : MonoBehaviour
         }
     }
 
-    public virtual void BeHitDamage(HitData data)
+    public virtual void BeHitDamage(OtherData data)
     {
         HP -= data.player.Att;
     }
 
-    public void InitHitClock(HitData data)
+    public void InitHitClock(OtherData data)
     {
         hurtCount = hurtSumTime;
         sp.material.SetFloat("_FlashAmount", 1);

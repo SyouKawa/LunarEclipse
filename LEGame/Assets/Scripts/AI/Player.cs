@@ -4,17 +4,14 @@ using UnityEngine;
 using UnityEditor;
 using MoreMountains.Tools;
 
-public class Player : MonoBehaviour
+public class Player : HasHPObject
 {
-    #region Player Info
-    [Header("Player人物信息")]
-    public float HP;
-    public float Att;
-    #endregion
+    [Space(20,order = 0)]
+    [Header("Player类自定义参数",order = 1)]
     #region Adjust Vars
-    [Space(20,order =0)]
-    [Header("可调参数",order = 1)]
-    [Tooltip("是否受重力加速度影响？不受影响则跳跃的上升下降皆为匀速运动",order = 2)]
+    [Space(5,order =2)]
+    [Header("可调参数",order = 3)]
+    [Tooltip("是否受重力加速度影响？不受影响则跳跃的上升下降皆为匀速运动")]
     public bool GravityEffect;
     [Tooltip("重力加速度-调整参数")]
     protected float fallMulti;
@@ -41,8 +38,12 @@ public class Player : MonoBehaviour
     public bool isJumping{get;private set;}
     [HideInInspector]
     public bool isAttack{get;private set;}
+    [HideInInspector]
+    public bool isHitted{get;private set;}
+    [HideInInspector]
+    public bool isSuper{get;private set;}
 
-    [Space(30, order = 0)]
+    [Space(5, order = 0)]
     [Header("碰撞检测", order = 1)]
     [Header("是否绘制碰撞线",order = 2)]
     public bool DrawRaycastsGizmos = true;
@@ -65,13 +66,13 @@ public class Player : MonoBehaviour
     protected float right;
     protected LayerMask GroundLayerMask;
     #endregion
-
-    protected Rigidbody2D rig;
-    protected BoxCollider2D coll;
     [Header("显示配置")]
     public SpriteRenderer sp;
     public Sprite[] texs;
+    //攻击动作持续时间
     public int attclk;
+    //受击动作持续时间
+    public int behitclk;
 
     //子对象
     protected GameObject weaponX;
@@ -96,11 +97,11 @@ public class Player : MonoBehaviour
     private void CalculateColliderLimit()
     {
         //计算水平方向射线的上下边界
-        top = coll.offset.y + (coll.size.y / 2f);
-        bottom = coll.offset.y - (coll.size.y / 2f);
+        top = colldr.offset.y + (colldr.size.y / 2f);
+        bottom = colldr.offset.y - (colldr.size.y / 2f);
         //计算垂直方向射线的左右边界
-        left = coll.offset.x - (coll.size.x / 2f);
-        right = coll.offset.x + (coll.size.x / 2f);
+        left = colldr.offset.x - (colldr.size.x / 2f);
+        right = colldr.offset.x + (colldr.size.x / 2f);
     }
 
     /// <summary>
@@ -136,17 +137,19 @@ public class Player : MonoBehaviour
 
             //准备工作（结果列表初始化及层级设置）
             RaycastHit2D[] result = new RaycastHit2D[3];
-            LayerMask mask = LayerMask.GetMask("Ground");
+            LayerMask ground = LayerMask.GetMask("Ground");
+            LayerMask monster = LayerMask.GetMask("Monsters");
             //射线检测(射线原点，方向，长度（边界值+防撞delta值），检测图层)
             result[i] = Physics2D.Raycast(
                             rayOriginPoint, 
                             dir, 
                             checkDelta + Mathf.Abs(limit),
-                            mask);
+                            ground|monster);
             //如果当前检测有，则置位标志位
             if (result[i])
             {
                 isCollided = true;
+                //Debug.Log(result[i].collider.name);
             }
             
             //DebugTools
@@ -175,15 +178,15 @@ public class Player : MonoBehaviour
         //速度调整
         if (Input.GetAxisRaw("Horizontal") > InputOffset.x)
         {
-            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x, moveSpeed * Time.fixedDeltaTime * 60, ref Xvelocity, XaccelerateTime), rig.velocity.y);
+            body.velocity = new Vector2(Mathf.SmoothDamp(body.velocity.x, moveSpeed * Time.fixedDeltaTime * 60, ref Xvelocity, XaccelerateTime), body.velocity.y);
         }
         else if (Input.GetAxisRaw("Horizontal") < (InputOffset.x * -1))
         {
-            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x, moveSpeed * Time.fixedDeltaTime * 60 * -1, ref Xvelocity, XaccelerateTime), rig.velocity.y);
+            body.velocity = new Vector2(Mathf.SmoothDamp(body.velocity.x, moveSpeed * Time.fixedDeltaTime * 60 * -1, ref Xvelocity, XaccelerateTime), body.velocity.y);
         }
         else if (Input.GetAxisRaw("Horizontal") == 0)
         {
-            rig.velocity = new Vector2(Mathf.SmoothDamp(rig.velocity.x, 0, ref Xvelocity, XaccelerateTime), rig.velocity.y);
+            body.velocity = new Vector2(Mathf.SmoothDamp(body.velocity.x, 0, ref Xvelocity, XaccelerateTime), body.velocity.y);
         }
     }
 
@@ -191,7 +194,7 @@ public class Player : MonoBehaviour
     void Gravity()
     {
         //在原重力影响下，加入fallMulti作为乘数调整下落的加速度
-        rig.velocity += Vector2.up * Physics2D.gravity.y * fallMulti * Time.fixedDeltaTime;
+        body.velocity += Vector2.up * Physics2D.gravity.y * fallMulti * Time.fixedDeltaTime;
     }
 
     //TODO：临时的动画切换
@@ -203,11 +206,11 @@ public class Player : MonoBehaviour
             {
                 sp.sprite = texs[0];
             }
-            if (isJumping && rig.velocity.y > 0)//速度大于0且是跳跃状态才切换
+            if (isJumping && body.velocity.y > 0)//速度大于0且是跳跃状态才切换
             {
                 sp.sprite = texs[1];
             }
-            if (rig.velocity.y < -0.2f)
+            if (body.velocity.y < -0.2f)
             {
                 sp.sprite = texs[2];
             }
@@ -217,25 +220,31 @@ public class Player : MonoBehaviour
     void Jump(float targetYPostion)
     {        
         //处于上升状态
-        if (rig.velocity.y >= 0 && transform.position.y < targetYPostion)
+        if (body.velocity.y >= 0 && transform.position.y < targetYPostion)
         {
-            rig.velocity = new Vector2(rig.velocity.x, jumpInitSpeed);
+            body.velocity = new Vector2(body.velocity.x, jumpInitSpeed);
         }
         //已达最大高度，变更为下落（此时无法再进入y速度需要大于0的上个if）
         else if (transform.position.y >= targetYPostion)
         {
             //达到最大高端，取消跳跃状态（相当于变为下坠）
             isJumping = false;
-            rig.velocity = new Vector2(rig.velocity.x, jumpDownSpeed);
+            body.velocity = new Vector2(body.velocity.x, jumpDownSpeed);
         }
+    }
+
+    private void BeHitted(float damage)
+    {
+        isHitted = true;
+        HP -= damage;
     }
 
     private void Start()
     {
         //物理组件初始化
-        rig = GetComponent<Rigidbody2D>();
+        body = GetComponent<Rigidbody2D>();
         sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        coll = GetComponent<BoxCollider2D>();
+        colldr = GetComponent<BoxCollider2D>();
         //计算碰撞边界
         CalculateColliderLimit();
 
@@ -281,14 +290,14 @@ public class Player : MonoBehaviour
             {
                 //EditorApplication.isPaused = true;
                 isJumping = false;
-                rig.velocity = new Vector2(rig.velocity.x, jumpDownSpeed);
+                body.velocity = new Vector2(body.velocity.x, jumpDownSpeed);
             }
         }
         else//如果没有跳跃，也不在地上，说明在下坠
         {
             if(!IsCollidingGround)
             {
-                rig.velocity = new Vector2(rig.velocity.x, jumpDownSpeed);
+                body.velocity = new Vector2(body.velocity.x, jumpDownSpeed);
             }
         }
 #endregion
@@ -328,12 +337,23 @@ public class Player : MonoBehaviour
         }
 #endregion
 
+#region BeHit Part
+        if(behitclk > 0)
+        {
+            behitclk--;
+        }
+        else
+        {
+            isHitted = false;
+        }
+#endregion
+
     }
 
     private void FixedUpdate()
     {
         //Debug显示
-        curVelocity = rig.velocity;
+        curVelocity = body.velocity;
         //恒运行函数
         RigCheckMove();
         //是否打开重力影响
@@ -346,6 +366,34 @@ public class Player : MonoBehaviour
         SwitchSprite();
 
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Monsters"))
+        {
+            Monster enemy = collision.gameObject.GetComponent<Monster>();
+            if(enemy == null)
+            {
+                //子物体为Monster的攻击碰撞体（例如：Monster的剑，组合怪且脚本只存在于主物体）
+                enemy = collision.transform.parent.GetComponent<Monster>();
+            }
+
+            if(enemy !=null)
+            {
+                HP -= Att;
+                Debug.Log(collision.gameObject.name);
+                isHitted = true;
+                //collision.gameObject.SendMessage("ApplyDamage", 10);
+            }
+            else
+            {
+                Debug.LogWarning("当前碰撞体未找到Monster脚本，无法获取Monster的攻击数值");
+            }
+        }
+    }
+
+
+
     private void OnDrawGizmos()
     {
         //天花板检测

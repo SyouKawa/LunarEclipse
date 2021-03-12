@@ -5,6 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public GameObject player;
+
     void OnTriggerEnter2D(Collider2D other) {
 		Debug.Log(other.name);
         Monster enemy = other.GetComponentInParent<Monster>();
@@ -15,7 +16,7 @@ public class Weapon : MonoBehaviour
             dir = dir.normalized;
             //触发敌人被击
             enemy.backDir = dir;
-            enemy.OnBeHit(new HitData(player.GetComponent<Player>()));
+            enemy.OnBeHit(new OtherData(player.GetComponent<Player>()));
         }
 	}
 }
