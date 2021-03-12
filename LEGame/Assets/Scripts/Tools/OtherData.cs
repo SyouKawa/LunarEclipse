@@ -9,7 +9,8 @@ public class OtherData
 {
     //击退方向
     public Vector2 hitBackDir;
-    public Player player;
+    //需要传输的单次伤害
+    public float damage;
 
-    public OtherData(Player _player){player = _player;}
+    public OtherData(float _damage){ damage = _damage;}
 }

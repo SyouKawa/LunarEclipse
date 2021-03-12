@@ -35,6 +35,8 @@ public class HideSpider : Monster
     {
         curState = Status.Patrol;
         attackEvent +=AttackAnimation;
+        //依赖外部脚本(GameManager)的Awake初始化，所以必须放到Start中的部分赋值
+        Target = GameManager.Instance.player;
     }
 
     public override void Attack()

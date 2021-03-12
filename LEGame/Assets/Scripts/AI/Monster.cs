@@ -20,7 +20,7 @@ public class Monster : HasHPObject
     public float multi;//击退向量调整参数
     public float halftime;//击退动画中间峰值
 
-    private void Awake()
+    void Awake()
     {
         //将被击逐帧函数压入
         dotBehitEvent = new DotBeHitHandler(BeHitBack);
@@ -38,15 +38,13 @@ public class Monster : HasHPObject
         hurtCount = 0;
         hurtSumTime = 0.2f;
         //初始化获取
-        sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        sp = transform.GetComponent<SpriteRenderer>();
+        if(sp == null)
+        {
+            sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        }
         body = transform.GetComponent<Rigidbody2D>();
         colldr = transform.GetComponent<BoxCollider2D>();
-    }
-
-    //依赖外部脚本的Awake初始化，所以必须放到Start中的部分赋值
-    private void Start()
-    {
-        Target = GameManager.Instance.player;
     }
 
 #region  被击逐帧函数列表（无参）
@@ -79,23 +77,10 @@ public class Monster : HasHPObject
 
 
 #region 被击单次函数列表（带参）
-    
-    //触发函数（在外部调用）
-    public void OnBeHit(OtherData data)
-    {
-        if(data!= null)
-        {
-            onceBeHitEvent.Invoke(data);
-        }
-        else
-        {
-            //TODO:抛出异常
-        }
-    }
 
     public virtual void BeHitDamage(OtherData data)
     {
-        HP -= data.player.Att;
+        HP -= data.damage;
     }
 
     public void InitHitClock(OtherData data)
@@ -121,7 +106,7 @@ public class Monster : HasHPObject
         }
     }
     
-    public void BaseUpdate()
+    protected void BaseUpdate()
     {
         CheckDeath();
         //如果处于被击计时中，则循环触发逐帧受击函数
@@ -133,6 +118,36 @@ public class Monster : HasHPObject
         else
         {
             sp.material.SetFloat("_FlashAmount", 0);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        print("enter");
+        if (collision.gameObject.tag == "Weapon")
+        {
+            print("enter W");
+            //先利用节点关系查找施加攻击的主物体
+            HasHPObject player = collision.transform.parent.GetComponent<HasHPObject>();
+            //如果没有找到，则查找是否有挂载“攻击类脚本”（例如：没有主节点的已经飞出的子弹或者飞镖等武器）
+            if(player == null)
+            {
+                collision.gameObject.GetComponent<Weapon>();
+            }
+
+            if(player != null)
+            {
+                backDir = transform.position - player.transform.position;
+                backDir = backDir.normalized;
+                OtherData data = new OtherData(player.Att);
+                data.hitBackDir = backDir;
+                //触发被击
+                OnBeHit(data);
+            }
+            else 
+            {
+                Debug.LogWarning("当前碰撞体未找到Player脚本，无法获取Player的攻击数值");
+            }
         }
     }
 }

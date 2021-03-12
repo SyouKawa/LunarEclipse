@@ -13,16 +13,16 @@ public class FlyerAround : Monster
 
     void Start()
     {
-        body = transform.GetChild(0).GetComponent<Rigidbody2D>();
-        colldr = transform.GetChild(0).GetComponent<BoxCollider2D>();
         Vector3 initPos = Flyer.transform.position;
         initPos.x = -radius;
         Flyer.transform.position = initPos;
+        //依赖外部脚本(GameManager)的Awake初始化，所以必须放到Start中的部分赋值
+        Target = GameManager.Instance.player;
     }
 
     public override void DestroySelf()
     {
-        Destroy(this.transform.GetChild(0).gameObject);
+        Destroy(this.transform.gameObject);
     }
 
     void Update()

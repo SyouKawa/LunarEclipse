@@ -16,7 +16,6 @@ public class JumpRusher : Monster
     public bool isGrounded;
     public float jumpInitSpeed;
     public Vector2 velocity = Vector2.zero;
-    public GameObject tempPlayer;
 
     public float rangeofPatrol;
     public float checkline;
@@ -27,10 +26,10 @@ public class JumpRusher : Monster
 
     void Start()
     {
-        //isGrounded = true;
+        //依赖外部脚本(GameManager)的Awake初始化，所以必须放到Start中的部分赋值
+        Target = GameManager.Instance.player;
         isJumping = false;
         col = GetComponent<BoxCollider2D>();
-        tempPlayer = GameManager.Instance.player;
     }
 
     void DestroySelf()
@@ -58,7 +57,7 @@ public class JumpRusher : Monster
     void Jump()
     {
         isJumping = true;
-        if(transform.position.x - tempPlayer.transform.position.x > 0)
+        if(transform.position.x - Target.transform.position.x > 0)
         {
             velocity.x = -initXSpeed;
         }
@@ -84,7 +83,7 @@ public class JumpRusher : Monster
         }
 
         //附近是否存在玩家
-        if(tempPlayer == null)
+        if(Target == null)
         {
             curState = Status.Patrol;
             body.velocity = Vector2.zero;
@@ -101,7 +100,7 @@ public class JumpRusher : Monster
                 DestroySelf();
             }
             //按距离条件判定：是否进入对玩家的攻击状态
-            float distance = Vector2.Distance(tempPlayer.transform.position,transform.position);
+            float distance = Vector2.Distance(Target.transform.position,transform.position);
             if(distance < rangeofPatrol)
             {
                 //进玩家入攻击范围，且未在做其他动作，将巡逻状态变为“接近玩家”

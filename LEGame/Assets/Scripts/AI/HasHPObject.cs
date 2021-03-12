@@ -26,4 +26,18 @@ public class HasHPObject : MonoBehaviour
     public DotBeHitHandler dotBehitEvent;
     //攻击操作委托
     public AttackHandler attackEvent; 
+
+    //触发函数（检测到单次受击的时候调用）
+    public void OnBeHit(OtherData data)
+    {
+        if(data!= null)
+        {
+            onceBeHitEvent.Invoke(data);
+        }
+        else
+        {
+            Debug.LogWarning("当前透传数据为空，可能存在异常，请注意！");
+        }
+    }
+
 }

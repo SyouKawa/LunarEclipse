@@ -80,6 +80,12 @@ public class Player : HasHPObject
     protected ContactFilter2D filter;
     protected Collider2D[] result;
 
+    private void Awake()
+    {
+        //被击单次函数压入
+        onceBeHitEvent = new OnceBeHitHandler(BeHitted);
+    }
+
     /// <summary>
     /// 每帧重置碰撞检测标志位
     /// </summary>
@@ -233,10 +239,10 @@ public class Player : HasHPObject
         }
     }
 
-    private void BeHitted(float damage)
+    private void BeHitted(OtherData data)
     {
         isHitted = true;
-        HP -= damage;
+        HP -= data.damage;
     }
 
     private void Start()
@@ -380,10 +386,8 @@ public class Player : HasHPObject
 
             if(enemy !=null)
             {
-                HP -= Att;
-                Debug.Log(collision.gameObject.name);
-                isHitted = true;
-                //collision.gameObject.SendMessage("ApplyDamage", 10);
+                OtherData data = new OtherData(enemy.Att);
+                onceBeHitEvent.Invoke(data);
             }
             else
             {
@@ -391,8 +395,6 @@ public class Player : HasHPObject
             }
         }
     }
-
-
 
     private void OnDrawGizmos()
     {
