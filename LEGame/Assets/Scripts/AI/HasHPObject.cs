@@ -10,35 +10,30 @@ public class HasHPObject : MonoBehaviour
     [Header("基类HasHPObject的基本数值")]
     public float HP;
     public float Att;
-    public List<int> Clocks;
-    public List<EveryFrameHandler> FrameFuncList;
     [Header("当前物体的本体物理组件（不包含子物体或子弹等）")]
     public Rigidbody2D body;
     public BoxCollider2D colldr;
+    
+    //不同逐帧函数的倒计时列表
+    protected List<int> Clocks;
+    protected List<EveryFrameHandler> FrameFuncList;
 
     //受击操作委托类型
     public delegate void OnceBeHitHandler(OtherData data);
-    //攻击操作委托
-    public delegate void AttackHandler();
     //逐帧操作委托类型
     public delegate void EveryFrameHandler(int clockCount);
     
     //受击事件列表
     public OnceBeHitHandler onceBeHitEvent;
-    //攻击操作列表
-    public AttackHandler attackEvent; 
-    //逐帧操作列表
-    public EveryFrameHandler everyFrameEvent;
 
-    //被击触发函数（检测到单次受击的时候调用）
-    public void OnBeHit(OtherData data)
-    {
-        if(data!= null)
-        {
+    /// <summary>
+    /// 被击触发函数（检测到单次受击的时候调用）
+    /// </summary>
+    /// <param name="data"></param>
+    public void OnBeHit(OtherData data){
+        if(data!= null){
             onceBeHitEvent.Invoke(data);
-        }
-        else
-        {
+        }else{
             Debug.LogWarning("当前透传数据为空，可能存在异常，请注意！");
         }
     }
@@ -53,8 +48,7 @@ public class HasHPObject : MonoBehaviour
         // 1 将秒换算为帧数
         int count = Mathf.CeilToInt(sumTime/0.02f);
         // 2 添加帧数钟
-        if(Clocks == null)
-        {
+        if(Clocks == null){
             Clocks = new List<int>();
         }
         Clocks.Add(count);
@@ -62,13 +56,11 @@ public class HasHPObject : MonoBehaviour
         int index = Clocks.Count - 1;
 
         // 3 添加时钟对应的执行函数列表
-        if(FrameFuncList == null)
-        {
+        if(FrameFuncList == null){
             FrameFuncList = new List<EveryFrameHandler>();
         }
         EveryFrameHandler curClockEvents = new EveryFrameHandler(FrameFuncs[0]);
-        for(int i =1;i<FrameFuncs.Count;i++)
-        {
+        for(int i =1;i<FrameFuncs.Count;i++){
             curClockEvents += FrameFuncs[i];
         }
         FrameFuncList.Add(curClockEvents);

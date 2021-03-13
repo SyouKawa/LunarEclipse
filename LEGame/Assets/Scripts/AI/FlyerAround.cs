@@ -20,11 +20,6 @@ public class FlyerAround : Monster
         Target = GameManager.Instance.player;
     }
 
-    public override void DestroySelf()
-    {
-        Destroy(this.transform.gameObject);
-    }
-
     void Update()
     {
         BaseUpdate();
