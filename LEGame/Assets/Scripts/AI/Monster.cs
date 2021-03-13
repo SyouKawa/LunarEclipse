@@ -22,8 +22,8 @@ public class Monster : HasHPObject
 
     void Awake()
     {
-        //将被击逐帧函数压入
-        dotBehitEvent = new DotBeHitHandler(BeHitBack);
+        // //将被击逐帧函数压入
+        // dotBehitEvent = new DotBeHitHandler(BeHitBack);
         
         //被击单次函数压入
         onceBeHitEvent = new OnceBeHitHandler(BeHitDamage);
@@ -108,17 +108,21 @@ public class Monster : HasHPObject
     
     protected void BaseUpdate()
     {
+        if(everyFrameEvent != null)
+        {
+            everyFrameEvent.Invoke();
+        }
         CheckDeath();
         //如果处于被击计时中，则循环触发逐帧受击函数
-        if(hurtCount >= 0)
-        {
-            hurtCount -= Time.deltaTime;
-            dotBehitEvent.Invoke();
-        }
-        else
-        {
-            sp.material.SetFloat("_FlashAmount", 0);
-        }
+        // if(hurtCount >= 0)
+        // {
+        //     hurtCount -= Time.deltaTime;
+        //     dotBehitEvent.Invoke();
+        // }
+        // else
+        // {
+        //     sp.material.SetFloat("_FlashAmount", 0);
+        // }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -143,6 +147,7 @@ public class Monster : HasHPObject
                 data.hitBackDir = backDir;
                 //触发被击
                 OnBeHit(data);
+                AddClockEvent(0.2f,BeHitBack);
             }
             else 
             {
