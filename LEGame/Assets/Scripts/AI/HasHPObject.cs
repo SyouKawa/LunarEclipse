@@ -11,6 +11,7 @@ public class HasHPObject : MonoBehaviour
     public float HP;
     public float Att;
     public List<int> Clocks;
+    public List<EveryFrameHandler> FrameFuncList;
     [Header("当前物体的本体物理组件（不包含子物体或子弹等）")]
     public Rigidbody2D body;
     public BoxCollider2D colldr;
@@ -20,7 +21,7 @@ public class HasHPObject : MonoBehaviour
     //攻击操作委托
     public delegate void AttackHandler();
     //逐帧操作委托类型
-    public delegate void EveryFrameHandler();
+    public delegate void EveryFrameHandler(int clockCount);
     
     //受击事件列表
     public OnceBeHitHandler onceBeHitEvent;
@@ -42,48 +43,34 @@ public class HasHPObject : MonoBehaviour
         }
     }
 
-    //添加逐帧触发函数
-    public void AddClockEvent(float sumTime,EveryFrameHandler FrameFunc)
+    /// <summary>
+    /// 添加逐帧倒计时及其对应要执行的函数列表
+    /// </summary>
+    /// <param name="sumTime">执行多长时间的倒计时</param>
+    /// <param name="FrameFuncs">对应当前倒计时，要加入逐帧运行的函数列表</param>
+    public void AddClockEvent(float sumTime,List<EveryFrameHandler> FrameFuncs)
     {
-        //将秒换算为帧数
+        // 1 将秒换算为帧数
         int count = Mathf.CeilToInt(sumTime/0.02f);
-        //添加帧数钟
+        // 2 添加帧数钟
         if(Clocks == null)
         {
             Clocks = new List<int>();
-            Clocks.Add(count);
         }
-        else
-        {
-            Clocks.Add(count);
-        }
-
+        Clocks.Add(count);
         //获取当前时钟的下标
         int index = Clocks.Count - 1;
-        void OnClock()
-        {
-            if(Clocks[index] > 0)
-            {
-                //每帧倒计时
-                Clocks[index]--;
-                print(Clocks[index]);
-            }
-            else//时间到则删除该逐帧事件和倒计时匿名函数
-            {
-                everyFrameEvent -= FrameFunc;
-                everyFrameEvent -= OnClock;
-            }
-        }
 
-        if(everyFrameEvent == null)
+        // 3 添加时钟对应的执行函数列表
+        if(FrameFuncList == null)
         {
-            everyFrameEvent = new EveryFrameHandler(FrameFunc);
-            everyFrameEvent += OnClock;
+            FrameFuncList = new List<EveryFrameHandler>();
         }
-        else
+        EveryFrameHandler curClockEvents = new EveryFrameHandler(FrameFuncs[0]);
+        for(int i =1;i<FrameFuncs.Count;i++)
         {
-            everyFrameEvent += FrameFunc;
-            everyFrameEvent += OnClock;
+            curClockEvents += FrameFuncs[i];
         }
+        FrameFuncList.Add(curClockEvents);
     }
 }

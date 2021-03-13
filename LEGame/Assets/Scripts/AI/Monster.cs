@@ -22,12 +22,8 @@ public class Monster : HasHPObject
 
     void Awake()
     {
-        // //将被击逐帧函数压入
-        // dotBehitEvent = new DotBeHitHandler(BeHitBack);
-        
         //被击单次函数压入
         onceBeHitEvent = new OnceBeHitHandler(BeHitDamage);
-        onceBeHitEvent += InitHitClock;//该函数中OtherData未使用
 
         //攻击函数压入(攻击内容全部由不同敌人的override承担)
         attackEvent = new AttackHandler(Attack);
@@ -48,28 +44,27 @@ public class Monster : HasHPObject
     }
 
 #region  被击逐帧函数列表（无参）
-    public virtual void BeHitBack()
+    public virtual void BeHitBack(int count)
     {
-        //判断是否是前半段动画，前半段则取击退向量同向，后半段取击退向量反向
-        int brehalf;
-        if(hurtCount > halftime)
+        if(count > 0)
         {
-            brehalf = 1;
+            body.velocity = backDir*3;
         }
         else
         {
-            brehalf = -1;
+            body.velocity = Vector2.zero;
         }
+    }
 
-        //每帧操作，执行击退位移,峰值时间折返
-        //Kine形式下采用纯位移形式
-        if(body.bodyType == RigidbodyType2D.Kinematic)
+    public void InitHitClock(int count)
+    {
+        if(count>0)
         {
-            transform.Translate(brehalf * backDir.x * multi,brehalf *backDir.y *multi,0);
+            sp.material.SetFloat("_FlashAmount", 1);
         }
-        else //物理模拟形式下采用刚体速度形式
+        else
         {
-            body.velocity = brehalf * backDir;
+            sp.material.SetFloat("_FlashAmount", 0);
         }
     }
 
@@ -81,12 +76,6 @@ public class Monster : HasHPObject
     public virtual void BeHitDamage(OtherData data)
     {
         HP -= data.damage;
-    }
-
-    public void InitHitClock(OtherData data)
-    {
-        hurtCount = hurtSumTime;
-        sp.material.SetFloat("_FlashAmount", 1);
     }
     
 #endregion
@@ -108,21 +97,22 @@ public class Monster : HasHPObject
     
     protected void BaseUpdate()
     {
-        if(everyFrameEvent != null)
+        //倒着遍历，防止List中间element销毁时崩溃
+        for(int i = Clocks.Count-1;i>=0;i--)
         {
-            everyFrameEvent.Invoke();
+            if(Clocks[i] >= 0)
+            {
+                FrameFuncList[i].Invoke(Clocks[i]);
+                Clocks[i]--;
+            }
+            else
+            {
+                Clocks.RemoveAt(i);
+                //FreeClockEvent(i);
+                FrameFuncList.RemoveAt(i);
+            }
         }
         CheckDeath();
-        //如果处于被击计时中，则循环触发逐帧受击函数
-        // if(hurtCount >= 0)
-        // {
-        //     hurtCount -= Time.deltaTime;
-        //     dotBehitEvent.Invoke();
-        // }
-        // else
-        // {
-        //     sp.material.SetFloat("_FlashAmount", 0);
-        // }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -147,7 +137,11 @@ public class Monster : HasHPObject
                 data.hitBackDir = backDir;
                 //触发被击
                 OnBeHit(data);
-                AddClockEvent(0.2f,BeHitBack);
+                //建立被击逐帧函数队列委托
+                List<EveryFrameHandler> handler = new List<EveryFrameHandler>();
+                handler.Add(BeHitBack);
+                handler.Add(InitHitClock);
+                AddClockEvent(0.2f,handler);
             }
             else 
             {
