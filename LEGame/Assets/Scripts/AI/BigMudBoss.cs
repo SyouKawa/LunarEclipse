@@ -9,9 +9,7 @@ public class BigMudBoss : Monster
     {
         Hide,
         StartAnim,
-        Part1,
-        Part2,
-        Angry,
+        FistAtk,
         FakeDeath,
         Die
     }
@@ -21,7 +19,7 @@ public class BigMudBoss : Monster
 
     public Status curState;
     public bool isLock;
-    public GameObject Fist1; 
+    public GameObject Fist; 
     public GameObject tempTarget;
     public Vector2 prePos;
     public float groundY;
@@ -41,17 +39,17 @@ public class BigMudBoss : Monster
         {
             Vector2 pos = tempTarget.transform.position;
             pos.y = 3;
-            Fist1.transform.position = Vector2.MoveTowards(Fist1.transform.position,pos,0.2f);
+            Fist.transform.position = Vector2.MoveTowards(Fist.transform.position,pos,0.2f);
         }
         if(timer1 > 40 && timer1<=50)
         {
-            prePos = Fist1.transform.localPosition;
+            prePos = Fist.transform.localPosition;
             prePos.y = groundY;
             
         }
         if(timer1 > 50)
         {
-            Fist1.transform.localPosition = Vector2.MoveTowards(Fist1.transform.localPosition,prePos,0.5f);
+            Fist.transform.localPosition = Vector2.MoveTowards(Fist.transform.localPosition,prePos,0.5f);
         }
         if(timer1 == 80)
         {
@@ -93,18 +91,18 @@ public class BigMudBoss : Monster
     }
     void FixedUpdate()
     {
-        if(curState == Status.Angry)
-        {
-            timer1 = 0;
-            //PlayAnimation("Angry");
-        }
-        if(curState == Status.Part1)
-        {
-            FallFirstFist();
-        }
-        if(curState == Status.Part2)
-        {
-            RushAndFall();
-        }
+        // if(curState == Status.Angry)
+        // {
+        //     timer1 = 0;
+        //     //PlayAnimation("Angry");
+        // }
+        // if(curState == Status.Part1)
+        // {
+        //     FallFirstFist();
+        // }
+        // if(curState == Status.Part2)
+        // {
+        //     RushAndFall();
+        // }
     }
 }
