@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 public class SEMenuTool : MonoBehaviour
 {
     [MenuItem("SEGame/Add GameManager")]
@@ -34,3 +35,4 @@ public class SEMenuTool : MonoBehaviour
     }
 
 }
+#endif
