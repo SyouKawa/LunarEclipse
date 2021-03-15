@@ -11,6 +11,7 @@ public class Player : HasHPObject
     #region Adjust Vars
     [Space(5,order =2)]
     [Header("可调参数",order = 3)]
+    public float Att;
     [Tooltip("是否受重力加速度影响？不受影响则跳跃的上升下降皆为匀速运动")]
     public bool GravityEffect;
     [Tooltip("重力加速度-调整参数")]

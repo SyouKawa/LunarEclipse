@@ -9,7 +9,6 @@ public class HasHPObject : MonoBehaviour
 {
     [Header("基类HasHPObject的基本数值")]
     public float HP;
-    public float Att;
     [Header("当前物体的本体物理组件（不包含子物体或子弹等）")]
     public Rigidbody2D body;
     public BoxCollider2D colldr;
@@ -46,7 +45,7 @@ public class HasHPObject : MonoBehaviour
     public void AddClockEvent(float sumTime,List<EveryFrameHandler> FrameFuncs)
     {
         // 1 将秒换算为帧数
-        int count = Mathf.CeilToInt(sumTime/0.02f);
+        int count = SETools.TimeToFrameCount(sumTime);
         // 2 添加帧数钟
         if(Clocks == null){
             Clocks = new List<int>();

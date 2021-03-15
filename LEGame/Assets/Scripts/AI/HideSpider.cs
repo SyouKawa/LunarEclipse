@@ -26,22 +26,24 @@ public class HideSpider : Monster
 
     [Header("攻击CD及计时器")]
     public float atkCDSumTime;
-    public float atkCDCount;
+    public bool isLocking;
 
     //挨打时隐身，再绕边打
     private Vector2 atkPos;
 
     void Start()
     {
+        isLocking = false;
         curState = Status.Patrol;
-        attackEvent +=AttackAnimation;
         //依赖外部脚本(GameManager)的Awake初始化，所以必须放到Start中的部分赋值
         Target = GameManager.Instance.player;
     }
 
-    public override void Attack()
+    public override void Attack(int atkCycle)
     {
-        Debug.Log("Attack!");
+        if(atkCycle == 50){
+            Debug.Log("Attack!");
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other) 
@@ -124,12 +126,33 @@ public class HideSpider : Monster
         float dir = NeedXFlip(Target.transform.position);
         transform.localScale = new Vector3(dir * 1,1,1);
         //---运行所有攻击相关函数---
-        attackEvent.Invoke();
+        if(!isLocking)
+        {
+            isLocking = true;
+            List<EveryFrameHandler> atkFuncs = new List<EveryFrameHandler>();
+            atkFuncs.Add(Attack);
+            atkFuncs.Add(AttackAnimation);
+            atkFuncs.Add(CheckLock);
+            AddClockEvent(atkCDSumTime,atkFuncs);
+            //attackEvent.Invoke(atkCDSumTime);
+        }
     }
 
-    private void AttackAnimation()
+    private void CheckLock(int atkCycle)
     {
-        sp.color = new Color(1,1,1,1);
+        if(atkCycle<=0)
+        {
+            isLocking = false;
+        }
+    }
+
+    private void AttackAnimation(int atkCycle)
+    {
+        if(atkCycle > 50){
+            sp.color = new Color(1,1,1,1);
+        }else{
+            sp.color = new Color(0,1,1,1);
+        }
     }
 
     private void OnPatrol()

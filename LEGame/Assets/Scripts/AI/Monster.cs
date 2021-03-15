@@ -7,7 +7,7 @@ public class Monster : HasHPObject
     [Space(20,order = 0)]
     [Header("Monster类自定义参数",order = 1)]
     [Space(5,order = 2)]
-    [Header("Monster的显示",order = 3)]
+    public float Att;
     public SpriteRenderer sp;
     //Monster的攻击目标
     protected GameObject Target;
@@ -17,9 +17,8 @@ public class Monster : HasHPObject
     protected float halftime;//击退动画中间峰值
 
     void Awake(){
-        //被击单次函数压入
         onceBeHitEvent = new OnceBeHitHandler(BeHitDamage);
-        
+
         //初始化获取
         sp = transform.GetComponent<SpriteRenderer>();
         if(sp == null){
@@ -62,8 +61,15 @@ public class Monster : HasHPObject
         HP -= data.damage;
     }
     
-    public virtual void Attack(){}
+    /// <summary>
+    /// Monster的攻击函数（实体都在override函数里）
+    /// </summary>
+    /// <param name="cycleTime"></param>
+    public virtual void Attack(int cycleCount){}
 
+    /// <summary>
+    /// 检查Monster是否已经死亡
+    /// </summary>
     public virtual void CheckDeath(){
         if(HP <= 0){
             Destroy(this.gameObject);
@@ -74,21 +80,23 @@ public class Monster : HasHPObject
     {
         //死亡检查
         CheckDeath();
-        
         //逐帧函数列表触发
-        //倒着遍历，防止List中间element销毁时崩溃
-        for(int i = Clocks.Count-1;i>=0;i--)
+        if(Clocks !=null)
         {
-            if(Clocks[i] >= 0)
+            //倒着遍历，防止List中间element销毁时崩溃
+            for(int i = Clocks.Count-1;i>=0;i--)
             {
-                FrameFuncList[i].Invoke(Clocks[i]);
-                Clocks[i]--;
-            }
-            else
-            {
-                Clocks.RemoveAt(i);
-                //FreeClockEvent(i);
-                FrameFuncList.RemoveAt(i);
+                if(Clocks[i] >= 0)
+                {
+                    FrameFuncList[i].Invoke(Clocks[i]);
+                    Clocks[i]--;
+                }
+                else
+                {
+                    Clocks.RemoveAt(i);
+                    //FreeClockEvent(i);
+                    FrameFuncList.RemoveAt(i);
+                }
             }
         }
     }
@@ -100,7 +108,7 @@ public class Monster : HasHPObject
         {
             print("enter W");
             //先利用节点关系查找施加攻击的主物体
-            HasHPObject player = collision.transform.parent.GetComponent<HasHPObject>();
+            Player player = collision.transform.parent.GetComponent<Player>();
             //如果没有找到，则查找是否有挂载“攻击类脚本”（例如：没有主节点的已经飞出的子弹或者飞镖等武器）
             if(player == null)
             {

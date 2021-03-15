@@ -155,9 +155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 120
-  Att: 20
   body: {fileID: 0}
   colldr: {fileID: 0}
+  Att: 20
   GravityEffect: 0
   moveSpeed: 7
   jumpInitSpeed: 25
@@ -1747,7 +1747,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2394707329401809967, guid: 96b8732e3d63d4bf994affeb53dbb9ea, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2394707329401809967, guid: 96b8732e3d63d4bf994affeb53dbb9ea, type: 3}
       propertyPath: m_TagString
@@ -1764,7 +1764,7 @@ PrefabInstance:
     - target: {fileID: 4920254395223955041, guid: 96b8732e3d63d4bf994affeb53dbb9ea, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300080, guid: 606cd4f117644ee47a1603ffc1d23393, type: 3}
+      objectReference: {fileID: 21300048, guid: dbb1ff0fb3145da4581e36c16ce3cb72, type: 3}
     - target: {fileID: 4920254395223955041, guid: 96b8732e3d63d4bf994affeb53dbb9ea, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -1856,11 +1856,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3030520163146752358, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
       propertyPath: speed
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3030520163146752358, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
       propertyPath: Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030520163146752358, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
+      propertyPath: atkCDSumTime
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3030520163146752359, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
       propertyPath: m_Name
@@ -1869,6 +1873,22 @@ PrefabInstance:
     - target: {fileID: 3030520163146752359, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288902173633423457, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
+      propertyPath: m_Size.x
+      value: 1.3492594
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288902173633423457, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0873146
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288902173633423457, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.02910471
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288902173633423457, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.7130711
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a43a073fc2dad4a0294661c48cd5a811, type: 3}
